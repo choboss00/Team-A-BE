@@ -21,3 +21,11 @@ Issue 탬플릿을 만들어두었으니, Issue 를 달 때 사용하시면 됩�
 
 ## PR 작성 방법
 PR 탬플릿을 만들어두었으니, Issue 를 달 때 사용하시면 됩니다
+
+## Branch
+
+머지가 완료되면 자동으로 브랜치가 지워지도록 세팅해두었습니다
+
+![image](https://github.com/9oormthonUNIV-JNU/Team-A-BE/assets/111727212/3b0edda3-d3d0-4851-984e-c514ddd8d524)
+
+혹시라도 지워지지 않는다면, 머지 후 사용하지 않는 브랜치를 꼭 지워주세요
