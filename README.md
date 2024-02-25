@@ -13,6 +13,8 @@
 ## Issue 작성 방법
 Issue 탬플릿을 만들어두었으니, Issue 를 달 때 사용하시면 됩니다
 
+![image](https://github.com/9oormthonUNIV-JNU/Team-A-BE/assets/111727212/feac514f-65ae-4339-bb9d-f38fe39ecc6a)
+
 ## Commit 작성 방법 ( 예시 )
 
 제목 : [feat] #[이슈번호] - 한줄 정리
