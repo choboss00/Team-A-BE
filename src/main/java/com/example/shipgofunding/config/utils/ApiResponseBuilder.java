@@ -1,4 +1,4 @@
-package com.example.shipgofunding.config;
+package com.example.shipgofunding.config.utils;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
