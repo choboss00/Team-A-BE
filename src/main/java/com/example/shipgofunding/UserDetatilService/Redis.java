@@ -1,13 +1,20 @@
-//package com.example.shipgofunding.UserDetatilService;
+package com.example.shipgofunding.UserDetatilService;
 
-//import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+//redis에 이메일 저장
+/* 보류
+@Service
+public class redis {
+    private final RedisTemplate <String, String> redisTemplate;
 
-//public class Redis {
-    //private final RedisTemplate<String, String> redisTemplate;
+    public EmailService(RedisTemplate<String, String> redisTemplate) {
+        this.redisTemplate = redisTemplate;
+    }
 
-    //@Autowired
-    //public Redis(RedisTemplate<String, String> redisTemplate)
+    public void saveEmail(String email) {
+        redisTemplate.opsForValue().set("email", email);
+    }
 
-    //private class RedisTemplate<T, T1> {
-   // }
-//}
+}
+
+ */

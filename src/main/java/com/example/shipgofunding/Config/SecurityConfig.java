@@ -41,14 +41,9 @@ public class SecurityConfig {
                                 frameOptionsConfig.disable()))
             .authorizeHttpRequests(auth -> auth // 인증 인가 설정
                     .requestMatchers(PathRequest.toH2Console()).permitAll()
-                    .requestMatchers("login.html", "signup.html", "user.html").permitAll()
-                    .anyRequest().permitAll())
-                .formLogin(login -> login
-                                .loginPage("login.html")
-                                .defaultSuccessUrl("/home")) //로그인 성공 시 메인 페이지
-                .logout(logout -> logout
-                                .logoutUrl("logout.html")
-                                .logoutSuccessUrl("login.html")); //로그아웃 성공 시 로그인 페이지
+                    .requestMatchers("static/login", "/signup", "/user").permitAll()
+                    .anyRequest().permitAll());
+
         //hasRole("USER")
         return http.build();
 

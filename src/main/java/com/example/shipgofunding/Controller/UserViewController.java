@@ -1,6 +1,7 @@
 package com.example.shipgofunding.Controller;
 
 import com.example.shipgofunding.UserDetatilService.UserDetailservice;
+import com.example.shipgofunding.UserDetatilService.UserRequest;
 import com.example.shipgofunding.UserDetatilService.UserService;
 import com.example.shipgofunding.domain.User;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +14,12 @@ import org.springframework.web.bind.annotation.RequestParam;
 @Controller
 public class UserViewController {
 
+    private final UserService userService;
+
+    public UserViewController(UserService userService) {
+        this.userService = userService;
+    }
+
     //로그인 폼
     @RequestMapping("static/login")
     public String login() {
@@ -20,8 +27,9 @@ public class UserViewController {
     }
     //회원가입 폼
     @PostMapping("static/signup")
-    public String signup() {
-        return "signup";
+    public String signup(UserRequest request) {
+        userService.save(request);
+        return "redirect:/login";
     }
 
 }

@@ -8,21 +8,20 @@ import com.example.shipgofunding.UserDetatilService.UserRequest;
 import com.example.shipgofunding.UserDetatilService.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RequiredArgsConstructor
 @RestController
 public class UserController {
 
     private final UserService userService;
-
+// 유저 정보 저장
     @PostMapping("/user")
     public String signup(UserRequest request) {
         userService.save(request);  // 회원 가입 메서드 호출
-        return "redirect:/login";  // 회원 가입이 완료된 이후에 로그인 페이지로 이동
+        return "redirect:/login.html";  // 회원 가입이 완료된 이후에 로그인 페이지로 이동
     }
+
 
 
 
