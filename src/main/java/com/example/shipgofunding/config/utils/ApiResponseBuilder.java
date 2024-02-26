@@ -18,7 +18,7 @@ public class ApiResponseBuilder {
     public static class ApiResponse<T> {
         private final String status;
         private final T response;
-        private final String message;
+        private final String error;
     }
     // 성공 후 응답값 ( response ) 에 데이터를 넣고 싶을 때 사용
     public static <T> ApiResponse<T> success(T data) {
