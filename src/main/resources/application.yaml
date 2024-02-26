@@ -15,11 +15,21 @@ spring:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
-        ddl-auto: update
+        ddl-auto: none
   redis:
     host: localhost
     port: 6379
     password: ""
+  server:
+    ssl:
+      enabled: true  # SSL 사용 여부
+      key-store: classpath:keystore.p12  # SSL 인증서 경로
+      key-store-password: password  # SSL 인증서 비밀번호
+      key-store-type: PKCS12  # SSL 인증서 유형
+      key-alias: myalias  # SSL 키 별칭
+  Logging:
+    level:
+      org:hibernate:SQL: DEBUG
 
 
 

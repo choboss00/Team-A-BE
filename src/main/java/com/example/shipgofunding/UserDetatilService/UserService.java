@@ -14,10 +14,11 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
-    // 패스워드 암호화 저장
+    // 패스워드 암호화하여 유저 정보 저장
     public Long save(UserRequest dto) {
         return userRepository.save(User.builder()
                 .email(dto.getEmail())
+                .nickname(dto.getNickname())
                 // 패스워드 암호화
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .build()).getId();
