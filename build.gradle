@@ -25,6 +25,7 @@ dependencies {
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'mysql:mysql-connector-java:8.0.32'
     annotationProcessor 'org.projectlombok:lombok'
+    implementation 'com.h2database:h2'
 }
 
 tasks.named('test') {
