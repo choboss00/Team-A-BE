@@ -8,7 +8,7 @@ import java.util.List;
 
 public interface BannerJpaRepository extends JpaRepository<Banner, Integer> {
 
-    @Query(value = "SELECT * FROM banner ORDER BY RAND() LIMIT 4", nativeQuery = true)
+    @Query(value = "SELECT * FROM banners ORDER BY RAND() LIMIT 4", nativeQuery = true)
     List<Banner> findRandomBanners();
 
 }
