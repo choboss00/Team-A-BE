@@ -1,5 +1,7 @@
 package com.example.shipgofunding.UserDetatilService;
 
+import com.example.shipgofunding.domain.User;
+import com.example.shipgofunding.domain.UserRole.RoleEnum;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
@@ -11,7 +13,7 @@ import lombok.NoArgsConstructor;
 //유효성 검증
 @NoArgsConstructor
 @Getter
-public class UserRequest {
+public class SinupRequest {
     @NotBlank(message = "닉네임은 필수 입력 값입니다.")
     private String nickname;
 
@@ -22,5 +24,16 @@ public class UserRequest {
     @Email(message = "이메일 형식으로 입력해주세요.")
     private String email;
 
+    private RoleEnum role;
+
+   //dto 생성
+    public User toEntity() {
+        return User.builder()
+                .role(role)
+                .nickname(nickname)
+                .email(email)
+                .password(password)
+                .build();
+    }
 
 }

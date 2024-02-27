@@ -2,7 +2,6 @@ package com.example.shipgofunding.UserDetatilService;
 
 import com.example.shipgofunding.domain.User;
 import com.example.shipgofunding.repository.UserRepository;
-import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,13 +13,17 @@ public class UserService {
     private final UserRepository userRepository;
     private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
+
+
     // 패스워드 암호화하여 유저 정보 저장
-    public Long save(UserRequest dto) {
+    public Long save(SinupRequest dto) {
         return userRepository.save(User.builder()
+                .role(dto.getRole())
                 .email(dto.getEmail())
                 .nickname(dto.getNickname())
                 // 패스워드 암호화
                 .password(bCryptPasswordEncoder.encode(dto.getPassword()))
                 .build()).getId();
     }
+
 }
