@@ -16,7 +16,7 @@ public class UserService {
 
 
     // 패스워드 암호화하여 유저 정보 저장
-    public Long save(SinupRequest dto) {
+    public Long save(com.example.shipgofunding.UserDetatilService.SignupRequest dto) {
         return userRepository.save(User.builder()
                 .role(dto.getRole())
                 .email(dto.getEmail())

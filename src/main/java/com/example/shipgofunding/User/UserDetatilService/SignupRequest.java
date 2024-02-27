@@ -13,7 +13,7 @@ import lombok.NoArgsConstructor;
 //유효성 검증
 @NoArgsConstructor
 @Getter
-public class SinupRequest {
+public class SignupRequest {
     @NotBlank(message = "닉네임은 필수 입력 값입니다.")
     private String nickname;
 

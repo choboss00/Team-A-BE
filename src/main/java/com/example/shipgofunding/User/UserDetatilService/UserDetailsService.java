@@ -1,8 +1,7 @@
 package com.example.shipgofunding.User.UserDetatilService;
 
 
-import com.example.shipgofunding.User.domain.User;
-import com.example.shipgofunding.User.repository.UserRepository;
+import com.example.shipgofunding.domain.User;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -14,14 +13,13 @@ import java.util.Optional;
 @Service
 public class UserDetailsService implements org.springframework.security.core.userdetails.UserDetailsService {
     @Autowired
-    private final UserRepository userRepository;
+    private final com.example.shipgofunding.repository.UserRepository userRepository;
 
     //로그인 인증
     @Override
     public UserDetails loadUserByUsername(String email) {
-        Optional<User> user = userRepository.findByEmail(email);
-        if(user!=null){
-            return new UserDetailsService(user);
-        }
+        return userRepository.findByEmail(email)
+                .orElseThrow(() -> new IllegalArgumentException(email));
+    }
 }
 

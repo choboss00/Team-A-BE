@@ -1,13 +1,11 @@
 package com.example.shipgofunding.Config;
 
-import com.example.shipgofunding.UserDetatilService.UserDetailservice;
+import com.example.shipgofunding.User.UserDetatilService.UserDetailsService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -22,7 +20,7 @@ import static org.springframework.boot.autoconfigure.security.servlet.PathReques
 @Configuration
 public class SecurityConfig {
 
-    private final UserDetailservice userDetailservice;
+    private final UserDetailsService userDetailservice;
 
     // 스프링 시큐리티 기능 비활성화
     @Bean
@@ -41,8 +39,12 @@ public class SecurityConfig {
                                 frameOptionsConfig.disable()))
             .authorizeHttpRequests(auth -> auth // 인증 인가 설정
                     .requestMatchers(PathRequest.toH2Console()).permitAll()
-                    .requestMatchers("static/login", "/signup", "/user").permitAll()
-                    .anyRequest().permitAll());
+                    .requestMatchers("/login", "/signup", "/user").permitAll()
+                    .anyRequest().permitAll())
+                .formLogin(login ->login
+                        .loginProcessingUrl("/login"))
+                .logout(logout->logout
+                        .logoutUrl("/logout"));
 
         //hasRole("USER")
         return http.build();

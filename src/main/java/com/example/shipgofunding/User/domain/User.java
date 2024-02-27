@@ -6,6 +6,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.userdetails.UserDetails;
 
 import java.sql.Timestamp;
 import java.util.Collection;
@@ -16,8 +17,8 @@ import java.util.List;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
-
-public class User  {
+//login 기능을 SpringSecurity에 상속하기 위해 UserDetails 사용
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
@@ -50,11 +51,39 @@ public class User  {
         this.role = role;
     }
 
-    //TO DO: UserDetail 상속 제거
-    //TO DO: 데이터 베이스 설정 수정
+    //사용자의 고유값 반환
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
-    @CreationTimestamp
-    private Timestamp createData;
+    @Override
+    public String getUsername() {
+        return email;
+    }
+    //계정 만료 여부 반환
+    @Override
+    public boolean isAccountNonExpired() {
+        return true; //true : 만료 X
+    }
+
+    // 계정 잠금 여부 반환
+    @Override
+    public boolean isAccountNonLocked() {
+        return true; //true : 잠금 X
+    }
+
+    //패스워드 만료 여부 반환
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;  //true : 만료 X
+    }
+    // 계정 사용 가능 여부 반환
+    @Override
+    public boolean isEnabled() {
+        return true; // true : 사용 가능
+    }
+
 
 
 }

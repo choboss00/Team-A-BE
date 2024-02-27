@@ -10,12 +10,12 @@ spring:
     console:
       enabled: true
   jpa:
-    show-sql: true
+    hibernate:
+      ddl-auto: create
     properties:
       hibernate:
         format_sql: true
         dialect: org.hibernate.dialect.MySQLDialect
-        ddl-auto: create
   redis:
     host: localhost
     port: 6379
