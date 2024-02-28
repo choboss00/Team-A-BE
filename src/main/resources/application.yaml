@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    url: jdbc:mysql://localhost:3306/testdb
+    username: root
+    password: 3642
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+
+  h2:
+    console:
+      enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: create
+    properties:
+      hibernate:
+        format_sql: true
+        dialect: org.hibernate.dialect.MySQLDialect
+  redis:
+    host: localhost
+    port: 6379
+    password: ""
+  server:
+    port: 8080
+  Logging:
+    level:
+      org:hibernate:SQL: DEBUG
+
+
+
+
+
+
