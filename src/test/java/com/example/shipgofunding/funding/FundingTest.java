@@ -48,5 +48,21 @@ public class FundingTest {
 
     }
 
+    @Test
+    @DisplayName("마감임박 랜덤 펀딩 상품 목록 3개를 잘 조회하는지 확인")
+    void UrgentFundingTest() throws Exception {
+        // given
+
+        // when
+        ResultActions resultActions = mvc.perform(get("/api/fundings/urgent"));
+
+        // then
+        String response = resultActions.andReturn().getResponse().getContentAsString();
+
+        System.out.println("테스트 : " + response);
+
+        resultActions.andExpect(jsonPath("$.status").value("success"));
+    }
+
 
 }
