@@ -41,6 +41,7 @@ public class SecurityConfig {
             config.addAllowedOrigin("*"); // e.g. http://domain1.com
             config.addAllowedHeader("*");
             config.addAllowedMethod("*");
+            config.addAllowedOriginPattern("*");
             config.setAllowCredentials(true);
             config.addExposedHeader("Authorization");
             return config;
