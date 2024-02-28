@@ -1,4 +1,4 @@
-package com.example.shipgofunding.UserDetatilService;
+package com.example.shipgofunding.user.request;
 
 import com.example.shipgofunding.domain.User;
 import com.example.shipgofunding.domain.UserRole.RoleEnum;
