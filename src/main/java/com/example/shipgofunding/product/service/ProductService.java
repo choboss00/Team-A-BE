@@ -22,11 +22,11 @@ public class ProductService {
         this.bannerJpaRepository = bannerJpaRepository;
     }
 
-    public List<ProductResponse.BannerResponse> getMainBanners() {
+    public List<ProductResponse.BannerResponseDTO> getMainBanners() {
         List<Banner> banners = bannerJpaRepository.findRandomBanners();
 
         return banners.stream()
-                .map(ProductResponse.BannerResponse::new)
+                .map(ProductResponse.BannerResponseDTO::new)
                 .toList();
     }
 }
