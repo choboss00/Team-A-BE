@@ -22,3 +22,13 @@ spring:
         format_sql: true
       default_batch_fetch_size: 100
     open-in-view: false
+
+springdoc:
+  packages-to-scan: com.example.shipgofunding
+  default-consumes-media-type: application/json;charset=UTF-8
+  default-produces-media-type: application/json;charset=UTF-8
+  swagger-ui:
+    path: /
+    disable-swagger-default-url: true
+    display-request-duration: true
+    operations-sorter: alpha
