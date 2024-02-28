@@ -1,8 +1,8 @@
-package com.example.shipgofunding.product.controller;
+package com.example.shipgofunding.funding.controller;
 
 import com.example.shipgofunding.config.utils.ApiResponseBuilder;
-import com.example.shipgofunding.product.response.FundingResponse;
-import com.example.shipgofunding.product.service.FundingService;
+import com.example.shipgofunding.funding.response.FundingResponse;
+import com.example.shipgofunding.funding.service.FundingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -35,6 +35,12 @@ public class FundingController {
         List<FundingResponse.BannerResponseDTO> banners = fundingService.getMainBanners();
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(banners));
+    }
+
+    @GetMapping("/fundings/urgent")
+    public ResponseEntity<?> getUrgentFundings() {
+        //TO-DO : 긴급 펀딩 데이터를 조회하는 로직 구현하기 ( 3개의 랜덤 마감 임박 데이터를 뽑아내야함 )
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(null));
     }
 
 }

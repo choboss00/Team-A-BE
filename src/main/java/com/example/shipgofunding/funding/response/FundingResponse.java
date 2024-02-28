@@ -1,6 +1,7 @@
-package com.example.shipgofunding.product.response;
+package com.example.shipgofunding.funding.response;
 
-import com.example.shipgofunding.product.banner.domain.Banner;
+import com.example.shipgofunding.funding.banner.domain.Banner;
+import com.example.shipgofunding.funding.domain.Funding;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -18,4 +19,5 @@ public class FundingResponse {
         }
 
     }
+
 }

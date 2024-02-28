@@ -1,7 +1,7 @@
-package com.example.shipgofunding.product.banner.domain;
+package com.example.shipgofunding.funding.banner.domain;
 
 import com.example.shipgofunding.config.utils.MetaData;
-import com.example.shipgofunding.product.domain.Funding;
+import com.example.shipgofunding.funding.domain.Funding;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

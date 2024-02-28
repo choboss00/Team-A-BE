@@ -1,4 +1,4 @@
-package com.example.shipgofunding.product.domain;
+package com.example.shipgofunding.funding.domain;
 
 public enum FundingEnum {
     OPEN_SCHEDULED("오픈 예정"),

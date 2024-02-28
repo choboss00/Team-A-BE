@@ -1,7 +1,7 @@
-package com.example.shipgofunding.product;
+package com.example.shipgofunding.funding;
 
-import com.example.shipgofunding.product.controller.FundingController;
-import com.example.shipgofunding.product.service.FundingService;
+import com.example.shipgofunding.funding.controller.FundingController;
+import com.example.shipgofunding.funding.service.FundingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;

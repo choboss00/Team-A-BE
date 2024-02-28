@@ -1,8 +1,8 @@
-package com.example.shipgofunding.product.service;
+package com.example.shipgofunding.funding.service;
 
-import com.example.shipgofunding.product.banner.domain.Banner;
-import com.example.shipgofunding.product.banner.repository.BannerJpaRepository;
-import com.example.shipgofunding.product.response.FundingResponse;
+import com.example.shipgofunding.funding.banner.domain.Banner;
+import com.example.shipgofunding.funding.banner.repository.BannerJpaRepository;
+import com.example.shipgofunding.funding.response.FundingResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

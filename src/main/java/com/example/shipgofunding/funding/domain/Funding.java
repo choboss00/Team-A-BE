@@ -1,4 +1,4 @@
-package com.example.shipgofunding.product.domain;
+package com.example.shipgofunding.funding.domain;
 
 import com.example.shipgofunding.config.utils.MetaData;
 import jakarta.persistence.*;
@@ -21,13 +21,13 @@ public class Funding extends MetaData {
     private Integer id;
 
     @Column(nullable = false)
-    private String productTitle;
+    private String fundingTitle;
 
     @Column(nullable = false)
-    private String productSummary;
+    private String fundingSummary;
 
     @Column(nullable = false)
-    private String productDescription;
+    private String fundingDescription;
 
     @Column(nullable = false)
     private String category;
