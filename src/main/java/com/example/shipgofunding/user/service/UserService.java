@@ -2,6 +2,7 @@ package com.example.shipgofunding.user.service;
 
 import com.example.shipgofunding.config.errors.exception.Exception400;
 import com.example.shipgofunding.config.jwt.TokenProvider;
+import com.example.shipgofunding.user.domain.RoleEnum;
 import com.example.shipgofunding.user.repository.UserRepository;
 import com.example.shipgofunding.user.request.UserRequest.SignupRequestDTO;
 import com.example.shipgofunding.user.request.UserRequest.LoginRequestDTO;
@@ -33,9 +34,9 @@ public class UserService {
             throw new Exception400(null, "아이디 또는 비밀번호가 일치하지 않습니다.");
         }
 
-        String token = tokenProvider.createToken(String.format("%s %s", user.getId(), user.getNickname()));
+        String token = tokenProvider.createToken(user.getEmail());
 
-        LoginResponseDTO loginResponseDTO = new LoginResponseDTO(user.getNickname(), user.getNickname(), user.getImage());
+        LoginResponseDTO loginResponseDTO = new LoginResponseDTO(user.getEmail(), user.getNickname(), user.getImage());
 
         return new LoginResponseWithTokenDTO(loginResponseDTO, token);
     }
@@ -44,7 +45,9 @@ public class UserService {
     public void signup(SignupRequestDTO requestDTO) {
         // 비밀번호 암호화
         requestDTO.setPassword(passwordEncoder.encode(requestDTO.getPassword()));
+        // TO-DO : 유저의 역할을 구분하는 로직 작성
+
         // 저장
-        userRepository.save(requestDTO.toEntity());
+        userRepository.save(requestDTO.toEntity(RoleEnum.USER));
     }
 }
