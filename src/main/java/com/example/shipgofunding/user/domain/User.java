@@ -1,16 +1,10 @@
 package com.example.shipgofunding.user.domain;
 
-import com.example.shipgofunding.domain.UserRole.RoleEnum;
+import com.example.shipgofunding.config.utils.MetaData;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.UserDetails;
-
-import java.util.Collection;
-import java.util.List;
 
 @Getter
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
@@ -18,7 +12,7 @@ import java.util.List;
 @SQLDelete(sql = "UPDATE users SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
 @Entity
 @Table(name = "users")
-public class User {
+public class User extends MetaData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -28,6 +22,9 @@ public class User {
 
     @Column(name = "password", nullable = false, unique = true)
     private String password;
+
+    @Column(name = "image")
+    private String image;
 
     @Column(name = "nickname", nullable = false, unique = true)
     private String nickname;
@@ -39,9 +36,8 @@ public class User {
     public User(String email, String password, String nickname, RoleEnum role) {
         this.role = role;
         this.email = email;
-        this.nickname=nickname;
+        this.nickname = nickname;
         this.password = password;
-
     }
 
 }

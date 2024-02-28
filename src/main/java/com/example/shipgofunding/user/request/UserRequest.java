@@ -14,20 +14,17 @@ public class UserRequest {
     @Getter
     @Setter
     public static class SignupRequestDTO {
-        @NotNull(message = "닉네임은 필수 입력 값입니다.")
-        private String nickname;
+        @NotNull(message = "이메일은 필수 입력 값입니다.")
+        private String email;
 
         @NotNull(message = "비밀번호는 필수 입력 값입니다.")
         private String password;
 
-        @NotNull(message = "이메일은 필수 입력 값입니다.")
-        private String email;
-
-        private RoleEnum role;
+        @NotNull(message = "닉네임은 필수 입력 값입니다.")
+        private String nickname;
 
         public User toEntity() {
             return User.builder()
-                    .role(role)
                     .nickname(nickname)
                     .email(email)
                     .password(password)
