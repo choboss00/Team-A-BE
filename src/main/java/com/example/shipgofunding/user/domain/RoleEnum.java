@@ -1,4 +1,4 @@
-package com.example.shipgofunding.domain.UserRole;
+package com.example.shipgofunding.user.domain;
 
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;

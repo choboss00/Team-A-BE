@@ -1,8 +1,6 @@
 package com.example.shipgofunding;
 
-import com.example.shipgofunding.UserDetatilService.UserRequest;
-import com.example.shipgofunding.UserDetatilService.UserService;
-import com.example.shipgofunding.domain.User;
+import com.example.shipgofunding.user.domain.User;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;

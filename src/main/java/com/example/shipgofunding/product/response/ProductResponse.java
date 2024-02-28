@@ -8,11 +8,11 @@ public class ProductResponse {
 
     @Getter
     @Setter
-    public static class BannerResponse {
+    public static class BannerResponseDTO {
         private int bannerId;
         private String bannerImageUrl;
 
-        public BannerResponse(Banner banner) {
+        public BannerResponseDTO(Banner banner) {
             this.bannerId = banner.getId();
             this.bannerImageUrl = banner.getImage();
         }

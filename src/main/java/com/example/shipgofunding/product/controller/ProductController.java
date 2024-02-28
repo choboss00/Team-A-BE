@@ -28,11 +28,11 @@ public class ProductController {
     @Operation(summary = "메인 배너 조회", description = "메인 페이지에 표시될 배너 데이터를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "성공적으로 배너 데이터 조회",
             content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = ProductResponse.BannerResponse.class)))
+                    schema = @Schema(implementation = ProductResponse.BannerResponseDTO.class)))
     @GetMapping("/banners/main")
     public ResponseEntity<?> getMainBanners() {
         //TO-DO : 메인 배너 데이터를 조회하는 로직 구현하기
-        List<ProductResponse.BannerResponse> banners = productService.getMainBanners();
+        List<ProductResponse.BannerResponseDTO> banners = productService.getMainBanners();
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(banners));
     }
