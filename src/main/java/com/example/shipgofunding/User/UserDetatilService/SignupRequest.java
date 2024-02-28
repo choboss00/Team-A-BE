@@ -7,12 +7,14 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotEmpty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 
 //사용자 정보 담을 dto
 //유효성 검증
 @NoArgsConstructor
 @Getter
+@Setter
 public class SignupRequest {
     @NotBlank(message = "닉네임은 필수 입력 값입니다.")
     private String nickname;
@@ -26,7 +28,8 @@ public class SignupRequest {
 
     private RoleEnum role;
 
-   //dto 생성
+
+    //dto 생성
     public User toEntity() {
         return User.builder()
                 .role(role)

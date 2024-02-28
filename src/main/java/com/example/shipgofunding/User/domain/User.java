@@ -3,12 +3,10 @@ package com.example.shipgofunding.domain;
 import com.example.shipgofunding.domain.UserRole.RoleEnum;
 import jakarta.persistence.*;
 import lombok.*;
-import org.hibernate.annotations.CreationTimestamp;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import java.sql.Timestamp;
 import java.util.Collection;
 import java.util.List;
 
@@ -16,6 +14,7 @@ import java.util.List;
 @Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
+@Setter
 @Entity
 //login 기능을 SpringSecurity에 상속하기 위해 UserDetails 사용
 public class User implements UserDetails {
@@ -45,10 +44,11 @@ public class User implements UserDetails {
 
     @Builder
     public User(String email, String password, String nickname, RoleEnum role) {
-        this.email = email;
-        this.password = password;
-        this.nickname=nickname;
         this.role = role;
+        this.email = email;
+        this.nickname=nickname;
+        this.password = password;
+
     }
 
     //사용자의 고유값 반환

@@ -3,9 +3,7 @@ package com.example.shipgofunding.User;
 import com.example.shipgofunding.UserDetatilService.UserService;
 import com.example.shipgofunding.domain.User;
 import com.example.shipgofunding.utils.ApiResponseBuilder;
-import com.fasterxml.jackson.core.JsonEncoding;
 import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.Cookie;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -15,10 +13,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.authentication.logout.SecurityContextLogoutHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import com.example.shipgofunding.UserDetatilService.SignupRequest;
 
 
@@ -65,7 +60,7 @@ public class UserController {
     }
 
     //로그인 정보 반환
-    @RequestMapping("/login")
+    @GetMapping("/login")
     public String login(SignupRequest userRequest, Authentication authentication) throws JsonProcessingException {
         // 현재 사용자의 인증 정보를 가져옴
             User data = (User) authentication.getPrincipal();
