@@ -1,7 +1,8 @@
 package com.example.shipgofunding.funding.controller;
 
 import com.example.shipgofunding.config.utils.ApiResponseBuilder;
-import com.example.shipgofunding.funding.response.FundingResponse;
+import com.example.shipgofunding.funding.response.FundingResponse.BannerResponseDTO;
+import com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO;
 import com.example.shipgofunding.funding.service.FundingService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.media.Content;
@@ -28,19 +29,25 @@ public class FundingController {
     @Operation(summary = "메인 배너 조회", description = "메인 페이지에 표시될 배너 데이터를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "성공적으로 배너 데이터 조회",
             content = @Content(mediaType = "application/json",
-                    schema = @Schema(implementation = FundingResponse.BannerResponseDTO.class)))
+                    schema = @Schema(implementation = BannerResponseDTO.class)))
     @GetMapping("/banners/main")
     public ResponseEntity<?> getMainBanners() {
         //TO-DO : 메인 배너 데이터를 조회하는 로직 구현하기
-        List<FundingResponse.BannerResponseDTO> banners = fundingService.getMainBanners();
+        List<BannerResponseDTO> banners = fundingService.getMainBanners();
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(banners));
     }
 
+    @Operation(summary = "72 시간 이내 상품 3개 조회", description = "메인 페이지에 표시될 마감임박 상품 데이터를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 마감임박 상품 데이터 조회",
+    content = @Content(mediaType = "application/json",
+    schema = @Schema(implementation = UrgentFundingResponseDTO.class)))
     @GetMapping("/fundings/urgent")
     public ResponseEntity<?> getUrgentFundings() {
         //TO-DO : 긴급 펀딩 데이터를 조회하는 로직 구현하기 ( 3개의 랜덤 마감 임박 데이터를 뽑아내야함 )
-        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(null));
+        List<UrgentFundingResponseDTO> urgentFundingImages = fundingService.getUrgentFundingImages();
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(urgentFundingImages));
     }
 
 }
