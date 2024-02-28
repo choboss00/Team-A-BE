@@ -1,66 +1,57 @@
-package com.example.shipgofunding.Config;
+package com.example.shipgofunding.config;
 
-import com.example.shipgofunding.User.UserDetatilService.UserDetailsService;
-import lombok.RequiredArgsConstructor;
-import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import com.example.shipgofunding.user.repository.UserRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
+import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
+import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.CorsConfigurationSource;
 
-import static org.springframework.boot.autoconfigure.security.servlet.PathRequest.toH2Console;
-//@EnableWebSecurity
-@RequiredArgsConstructor
+import java.util.Collections;
+
 @Configuration
+@EnableWebSecurity
 public class SecurityConfig {
 
-    private final UserDetailsService userDetailservice;
-
-    // 스프링 시큐리티 기능 비활성화
+    // 비밀번호 암호화
     @Bean
-    public WebSecurityCustomizer configure() {
-        return (web) -> web.ignoring()
-                .requestMatchers(toH2Console())
-                .requestMatchers(PathRequest.toStaticResources().atCommonLocations());
-    }
-
-    // 특정 HTTP 요청에 대한 웹 기반 보안 구성
-    @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        http.csrf(csrf -> csrf.disable())//csrf 비활성화
-                .headers(headerConfig->
-                        headerConfig.frameOptions(frameOptionsConfig ->
-                                frameOptionsConfig.disable()))
-            .authorizeHttpRequests(auth -> auth // 인증 인가 설정
-                    .requestMatchers(PathRequest.toH2Console()).permitAll()
-                    .requestMatchers("/login", "/signup", "/user").permitAll()
-                    .anyRequest().permitAll())
-                .formLogin(login ->login
-                        .loginProcessingUrl("/login"))
-                .logout(logout->logout
-                        .logoutUrl("/logout"));
-
-        //hasRole("USER")
-        return http.build();
-
-    }
-
-    // 패스워드 인코더로 사용할 빈 등록
-    @Bean
-    public BCryptPasswordEncoder bCryptPasswordEncoder() {
+    public BCryptPasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
 
+    // CORS 설정
+    CorsConfigurationSource corsConfigurationSource() {
+        return request -> {
+            CorsConfiguration config = new CorsConfiguration();
+            config.setAllowedHeaders(Collections.singletonList("*"));
+            config.setAllowedMethods(Collections.singletonList("*"));
+            config.setAllowedOriginPatterns(Collections.singletonList("*")); // 허용할 origin
+            config.setAllowCredentials(true);
+            return config;
+        };
+    }
+
     @Bean
-    AuthenticationManager authenticationManager(
-            AuthenticationConfiguration authenticationConfiguration) throws Exception {
-        return authenticationConfiguration.getAuthenticationManager();
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(AbstractHttpConfigurer::disable)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // 세션 사용 X
+                .cors(corsConfigurer -> corsConfigurer.configurationSource(corsConfigurationSource())) // CORS 설정
+                .formLogin(AbstractHttpConfigurer::disable) // form login 사용 X
+                .httpBasic(AbstractHttpConfigurer::disable) // http basic 사용 X
+                .authorizeHttpRequests(authorize -> authorize
+                        .anyRequest().permitAll()) // 모든 요청 허용
+                .build();
+
     }
 
 }
