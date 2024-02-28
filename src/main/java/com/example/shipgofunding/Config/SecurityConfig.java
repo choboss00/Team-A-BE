@@ -38,10 +38,11 @@ public class SecurityConfig {
     CorsConfigurationSource corsConfigurationSource() {
         return request -> {
             CorsConfiguration config = new CorsConfiguration();
-            config.setAllowedHeaders(Collections.singletonList("*"));
-            config.setAllowedMethods(Collections.singletonList("*"));
-            config.setAllowedOriginPatterns(Collections.singletonList("*")); // 허용할 origin
+            config.addAllowedOrigin("*"); // e.g. http://domain1.com
+            config.addAllowedHeader("*");
+            config.addAllowedMethod("*");
             config.setAllowCredentials(true);
+            config.addExposedHeader("Authorization");
             return config;
         };
     }
