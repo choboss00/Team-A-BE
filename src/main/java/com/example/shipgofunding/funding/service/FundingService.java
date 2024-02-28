@@ -10,6 +10,8 @@ import com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingR
 import com.example.shipgofunding.funding.response.FundingResponse.BannerResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -47,12 +49,18 @@ public class FundingService {
         List<UrgentFundingResponseDTO> urgentFundingImages = new ArrayList<>();
 
         for ( Funding funding : fundings ) {
-            FundingImage fundingImage = fundingImageJpaRepository.findFirstImageByFundingId(funding.getId());
+            FundingImage fundingImage = findFirstByFundingId(funding.getId());
 
             // 사진 추가하기
             urgentFundingImages.add(new UrgentFundingResponseDTO(fundingImage));
         }
 
         return urgentFundingImages;
+    }
+    
+    // 1장의 이미지 데이터만을 가져오기 위한 메소드
+    public FundingImage findFirstByFundingId(Integer fundingId) {
+        Page<FundingImage> page = fundingImageJpaRepository.findByFundingId(fundingId, PageRequest.of(0, 1));
+        return page.stream().findFirst().orElse(null);
     }
 }
