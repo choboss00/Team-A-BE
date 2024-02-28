@@ -4,7 +4,7 @@ import com.example.shipgofunding.product.banner.domain.Banner;
 import lombok.Getter;
 import lombok.Setter;
 
-public class ProductResponse {
+public class FundingResponse {
 
     @Getter
     @Setter

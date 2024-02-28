@@ -1,7 +1,7 @@
 package com.example.shipgofunding.product.banner.domain;
 
 import com.example.shipgofunding.config.utils.MetaData;
-import com.example.shipgofunding.product.domain.Product;
+import com.example.shipgofunding.product.domain.Funding;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,7 +20,7 @@ public class Banner extends MetaData {
     private Integer id;
 
     @OneToOne(fetch = FetchType.LAZY)
-    private Product product;
+    private Funding funding;
 
     @Column(nullable = false)
     private String image;

@@ -15,7 +15,7 @@ import java.time.LocalDateTime;
 @SQLDelete(sql = "UPDATE products SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
 @Entity
 @Table(name = "products")
-public class Product extends MetaData {
+public class Funding extends MetaData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -43,6 +43,6 @@ public class Product extends MetaData {
 
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
-    private State state;
+    private FundingEnum fundingEnum;
 
 }

@@ -1,8 +1,7 @@
 package com.example.shipgofunding.product;
 
-import com.example.shipgofunding.product.controller.ProductController;
-import com.example.shipgofunding.product.service.ProductService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.shipgofunding.product.controller.FundingController;
+import com.example.shipgofunding.product.service.FundingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,16 +19,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ActiveProfiles("test")
 @Sql("classpath:db/teardown.sql")
-public class ProductTest {
+public class FundingTest {
 
     private MockMvc mvc;
 
     @Autowired
-    private ProductService productService;
+    private FundingService fundingService;
 
     @BeforeEach
     public void init() {
-        mvc = MockMvcBuilders.standaloneSetup(new ProductController(productService)).build();
+        mvc = MockMvcBuilders.standaloneSetup(new FundingController(fundingService)).build();
     }
 
     @Test
