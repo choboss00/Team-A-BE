@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.www.BasicAuthenticationFi
 import org.springframework.security.web.header.writers.frameoptions.XFrameOptionsHeaderWriter;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.Collections;
 
@@ -35,17 +36,17 @@ public class SecurityConfig {
     }
 
     // CORS 설정
+    @Bean
     CorsConfigurationSource corsConfigurationSource() {
-        return request -> {
-            CorsConfiguration config = new CorsConfiguration();
-            config.addAllowedOrigin("*"); // e.g. http://domain1.com
-            config.addAllowedHeader("*");
-            config.addAllowedMethod("*");
-            config.addAllowedOriginPattern("*");
-            config.setAllowCredentials(true);
-            config.addExposedHeader("Authorization");
-            return config;
-        };
+        CorsConfiguration configuration = new CorsConfiguration();
+        configuration.addAllowedOriginPattern("*"); // 모든 출처 허용
+        configuration.addAllowedHeader("*"); // 모든 요청 헤더 허용
+        configuration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
+        configuration.addExposedHeader("Authorization"); // "Authorization" 응답 헤더 노출
+        configuration.setAllowCredentials(true); // 쿠키 및 인증 정보 허용
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 CORS 설정 적용
+        return source;
     }
 
     @Bean
