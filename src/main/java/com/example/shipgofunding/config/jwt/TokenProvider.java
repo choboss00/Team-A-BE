@@ -20,6 +20,8 @@ public class TokenProvider {
     private final long expirationHours;
     private final String issuer;
 
+    public static final String TOKEN_PREFIX = "Bearer ";
+
     public TokenProvider(
             @Value("${secret-key}") String secretKey,
             @Value("${expiration-hours}") long expirationHours,
