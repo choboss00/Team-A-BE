@@ -1,7 +1,9 @@
 package com.example.shipgofunding.config;
 
+import com.example.shipgofunding.config.jwt.JWTAuthenticationEntryPoint;
 import com.example.shipgofunding.config.jwt.JwtAuthenticationFilter;
 import com.example.shipgofunding.user.repository.UserRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -14,6 +16,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.CorsConfigurer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
@@ -29,6 +32,7 @@ import java.util.Collections;
 @Configuration
 public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;	// JwtAuthenticationFilter 주입
+    private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;	// JWTAuthenticationEntryPoint 주입
     // 비밀번호 암호화
     @Bean
     public BCryptPasswordEncoder passwordEncoder(){
@@ -64,6 +68,8 @@ public class SecurityConfig {
                 .headers((headers) -> headers
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(
                                 XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))
+                .exceptionHandling(exceptionHandling -> exceptionHandling
+                        .authenticationEntryPoint(jwtAuthenticationEntryPoint)) // jwt 인증 예외 처리
                 .build();
 
     }
