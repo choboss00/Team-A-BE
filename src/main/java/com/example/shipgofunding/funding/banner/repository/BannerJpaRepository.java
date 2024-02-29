@@ -1,6 +1,6 @@
-package com.example.shipgofunding.product.banner.repository;
+package com.example.shipgofunding.funding.banner.repository;
 
-import com.example.shipgofunding.product.banner.domain.Banner;
+import com.example.shipgofunding.funding.banner.domain.Banner;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 

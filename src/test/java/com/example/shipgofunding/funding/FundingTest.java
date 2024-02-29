@@ -1,8 +1,7 @@
-package com.example.shipgofunding.product;
+package com.example.shipgofunding.funding;
 
-import com.example.shipgofunding.product.controller.ProductController;
-import com.example.shipgofunding.product.service.ProductService;
-import com.fasterxml.jackson.databind.ObjectMapper;
+import com.example.shipgofunding.funding.controller.FundingController;
+import com.example.shipgofunding.funding.service.FundingService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -20,16 +19,16 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @SpringBootTest
 @ActiveProfiles("test")
 @Sql("classpath:db/teardown.sql")
-public class ProductTest {
+public class FundingTest {
 
     private MockMvc mvc;
 
     @Autowired
-    private ProductService productService;
+    private FundingService fundingService;
 
     @BeforeEach
     public void init() {
-        mvc = MockMvcBuilders.standaloneSetup(new ProductController(productService)).build();
+        mvc = MockMvcBuilders.standaloneSetup(new FundingController(fundingService)).build();
     }
 
     @Test
@@ -47,6 +46,22 @@ public class ProductTest {
 
         resultActions.andExpect(jsonPath("$.status").value("success"));
 
+    }
+
+    @Test
+    @DisplayName("마감임박 랜덤 펀딩 상품 목록 3개를 잘 조회하는지 확인")
+    void UrgentFundingTest() throws Exception {
+        // given
+
+        // when
+        ResultActions resultActions = mvc.perform(get("/api/fundings/urgent"));
+
+        // then
+        String response = resultActions.andReturn().getResponse().getContentAsString();
+
+        System.out.println("테스트 : " + response);
+
+        resultActions.andExpect(jsonPath("$.status").value("success"));
     }
 
 
