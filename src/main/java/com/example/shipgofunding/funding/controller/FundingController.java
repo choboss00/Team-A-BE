@@ -10,6 +10,7 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.apache.coyote.Response;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -48,6 +49,13 @@ public class FundingController {
         List<UrgentFundingResponseDTO> urgentFundingImages = fundingService.getUrgentFundingImages();
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(urgentFundingImages));
+    }
+
+    @GetMapping("/fundings/popular")
+    public ResponseEntity<?> getPopularFundings() {
+        //TO-DO : 인기 펀딩 데이터를 조회하는 로직 구현하기 ( 인기순으로 정렬된 6개의 데이터를 뽑아내야 함 )
+        
+        return ResponseEntity.status(HttpStatus.OK).body(null);
     }
 
 }
