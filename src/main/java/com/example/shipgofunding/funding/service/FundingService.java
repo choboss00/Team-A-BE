@@ -102,6 +102,10 @@ public class FundingService {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category"), category));
         }
 
+        if (search != null && !search.trim().isEmpty()) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.like(criteriaBuilder.lower(root.get("fundingTitle")), "%" + search.toLowerCase() + "%"));
+        }
+
         if ( minPrice != null ) {
             spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("individualPrice"), minPrice));
         }
