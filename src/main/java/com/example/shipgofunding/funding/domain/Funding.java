@@ -1,6 +1,7 @@
 package com.example.shipgofunding.funding.domain;
 
 import com.example.shipgofunding.config.utils.MetaData;
+import com.example.shipgofunding.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,6 +23,9 @@ public class Funding extends MetaData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @Column(nullable = false)
     private String fundingTitle;
 
@@ -35,7 +39,10 @@ public class Funding extends MetaData {
     private String category;
 
     @Column(nullable = false)
-    private Integer price;
+    private Integer individualPrice;
+
+    @Column(nullable = false)
+    private Integer totalPrice;
 
     @Column(nullable = false)
     private LocalDateTime startDate;

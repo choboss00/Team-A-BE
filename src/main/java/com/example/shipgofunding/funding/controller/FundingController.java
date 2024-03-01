@@ -1,6 +1,7 @@
 package com.example.shipgofunding.funding.controller;
 
 import com.example.shipgofunding.config.utils.ApiResponseBuilder;
+import com.example.shipgofunding.funding.response.FundingResponse.PopularFundingMainPageResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.BannerResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO;
 import com.example.shipgofunding.funding.service.FundingService;
@@ -11,6 +12,7 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -48,6 +50,18 @@ public class FundingController {
         List<UrgentFundingResponseDTO> urgentFundingImages = fundingService.getUrgentFundingImages();
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(urgentFundingImages));
+    }
+
+    @Operation(summary = "인기 상품 조회", description = "메인 페이지에 표시될 인기 상품 데이터를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 인기 상품 데이터 조회",
+    content = @Content(mediaType = "application/json",
+    schema = @Schema(implementation = PopularFundingMainPageResponseDTO.class)))
+    @GetMapping(value = "/fundings/popular", produces = "application/json; charset=UTF-8")
+    public ResponseEntity<?> getPopularMainPageFundings() {
+        //TO-DO : 인기 펀딩 데이터를 조회하는 로직 구현하기 ( 인기순으로 정렬된 6개의 데이터를 뽑아내야 함 )
+        List<PopularFundingMainPageResponseDTO> popularFundings = fundingService.getPopularMainPageFundings();
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(popularFundings));
     }
 
 }
