@@ -17,11 +17,11 @@ VALUES
     (NOW(), 'Product 7', 'Summary for product 7', 'Description for product 7', '가전', 2000, '2024-03-02 00:00:00', '2024-03-16 00:00:00', 'OPEN_SCHEDULED'),
     (NOW(), 'Product 8', 'Summary for product 8', 'Description for product 8', '가전', 3000, '2024-03-03 00:00:00', '2024-03-17 00:00:00', 'OPEN_SCHEDULED'),
     (NOW(), 'Product 9', 'Summary for product 9', 'Description for product 9', '가전', 4000, '2024-03-04 00:00:00', '2024-03-18 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 'Product 10', 'Summary for product 10', 'Description for product 10', '가전', 5000, '2024-03-05 00:00:00', '2024-03-19 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 'Product 11', 'Summary for product 11', 'Description for product 11', '가전', 2000, '2024-02-28 00:00:00', '2024-02-29 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 'Product 12', 'Summary for product 12', 'Description for product 12', '가전', 3000, '2024-02-28 00:00:00', '2024-02-29 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 'Product 13', 'Summary for product 13', 'Description for product 13', '가전', 4000, '2024-02-28 00:00:00', '2024-02-29 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 'Product 14', 'Summary for product 14', 'Description for product 14', '가전', 5000, '2024-02-28 00:00:00', '2024-02-29 00:00:00', 'CLOSE_IMMINENT');
+    (NOW(), 'Product 10', 'Summary for product 10', 'Description for product 10', '가전', 5000, '2024-03-05 00:00:00', '2024-03-02 00:00:00', 'OPEN_SCHEDULED'),
+    (NOW(), 'Product 11', 'Summary for product 11', 'Description for product 11', '가전', 2000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
+    (NOW(), 'Product 12', 'Summary for product 12', 'Description for product 12', '가전', 3000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
+    (NOW(), 'Product 13', 'Summary for product 13', 'Description for product 13', '가전', 4000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
+    (NOW(), 'Product 14', 'Summary for product 14', 'Description for product 14', '가전', 5000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT');
 
 INSERT INTO banners (funding_id, image, created_at)
 VALUES
