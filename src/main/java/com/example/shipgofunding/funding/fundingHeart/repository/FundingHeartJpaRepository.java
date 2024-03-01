@@ -18,4 +18,7 @@ public interface FundingHeartJpaRepository extends JpaRepository<FundingHeart, I
             "ORDER BY COUNT(f.funding.id) DESC " +
             "LIMIT 6")
     List<Integer> findPopularFundingHearts();
+
+    int countByFundingId(Integer id);
+
 }

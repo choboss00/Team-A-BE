@@ -3,23 +3,30 @@ package com.example.shipgofunding.funding.service;
 import com.example.shipgofunding.funding.banner.domain.Banner;
 import com.example.shipgofunding.funding.banner.repository.BannerJpaRepository;
 import com.example.shipgofunding.funding.domain.Funding;
-import com.example.shipgofunding.funding.fundingHeart.domain.FundingHeart;
 import com.example.shipgofunding.funding.fundingHeart.repository.FundingHeartJpaRepository;
 import com.example.shipgofunding.funding.image.domain.FundingImage;
 import com.example.shipgofunding.funding.image.repository.FundingImageJpaRepository;
 import com.example.shipgofunding.funding.repository.FundingJpaRepository;
+import com.example.shipgofunding.funding.response.FundingResponse.FundingResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.PopularFundingMainPageResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.BannerResponseDTO;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Optional;
 
 @Transactional
 @RequiredArgsConstructor
@@ -86,4 +93,51 @@ public class FundingService {
         return popularFundings;
 
     }
+
+    public List<FundingResponseDTO> getFundings(String category, String search, Integer minPrice, Integer maxPrice, String sorted, Pageable pageable) {
+        // 검색 조건, 카테고리, 가격 범위, 정렬 방식을 적용한 Specification 구성하기
+        Specification<Funding> spec = Specification.where(null);
+
+        if (category != null && !category.trim().isEmpty()) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.equal(root.get("category"), category));
+        }
+
+        if ( minPrice != null ) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.greaterThanOrEqualTo(root.get("individualPrice"), minPrice));
+        }
+
+        if ( maxPrice != null ) {
+            spec = spec.and((root, query, criteriaBuilder) -> criteriaBuilder.lessThanOrEqualTo(root.get("individualPrice"), maxPrice));
+        }
+
+        Sort sort = Sort.unsorted();
+
+        if (sorted != null && !sorted.trim().isEmpty()) {
+            switch (sorted) {
+                case "인기순":
+                    sort = Sort.by(Sort.Direction.DESC, "likesCount"); // @Formula로 계산된 likesCount 기준 내림차순 정렬
+                    break;
+                case "최신순":
+                    sort = Sort.by(Sort.Direction.DESC, "createdAt");
+                    break;
+                case "마감 임박순":
+                    sort = Sort.by(Sort.Direction.ASC, "endDate");
+                    break;
+            }
+        }
+
+        pageable = PageRequest.of(pageable.getPageNumber(), pageable.getPageSize(), sort);
+        Page<Funding> fundings = fundingJpaRepository.findAll(spec, pageable);
+
+        List<FundingResponseDTO> fundingResponseDTOs = new ArrayList<>();
+        for (Funding funding : fundings) {
+            FundingImage fundingImage = findFirstByFundingId(funding.getId());
+
+            fundingResponseDTOs.add(new FundingResponseDTO(fundingImage));
+        }
+
+        return fundingResponseDTOs;
+
+    }
+
 }

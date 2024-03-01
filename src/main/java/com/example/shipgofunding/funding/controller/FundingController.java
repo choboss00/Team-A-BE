@@ -1,6 +1,7 @@
 package com.example.shipgofunding.funding.controller;
 
 import com.example.shipgofunding.config.utils.ApiResponseBuilder;
+import com.example.shipgofunding.funding.response.FundingResponse.FundingResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.PopularFundingMainPageResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.BannerResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO;
@@ -11,11 +12,16 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -62,6 +68,32 @@ public class FundingController {
         List<PopularFundingMainPageResponseDTO> popularFundings = fundingService.getPopularMainPageFundings();
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(popularFundings));
+    }
+
+
+    @Operation(summary = "상품 목록 조회", description = "상품 목록을 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 상품 목록 조회",
+    content = @Content(mediaType = "application/json",
+    schema = @Schema(implementation = FundingResponseDTO.class)))
+    @GetMapping("/fundings")
+    public ResponseEntity<?> getFundings(
+            @RequestParam(required = false) String category,
+            @RequestParam(required = false) String search,
+            @RequestParam(required = false) Integer min_price,
+            @RequestParam(required = false) Integer max_price,
+            @RequestParam(required = false) String sorted,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "12") int size,
+            @RequestParam(defaultValue = "id") String sortField,
+            @RequestParam(defaultValue = "DESC") Sort.Direction direction) {
+
+        // Pageable 인스턴스 생성
+        Pageable pageable = PageRequest.of(page, size, Sort.by(direction, sortField));
+
+        // 서비스 메서드 호출
+        List<FundingResponseDTO> fundings = fundingService.getFundings(category, search, min_price, max_price, sorted, pageable);
+
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundings));
     }
 
 }
