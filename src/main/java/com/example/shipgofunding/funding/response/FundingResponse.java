@@ -27,6 +27,24 @@ public class FundingResponse {
 
     @Getter
     @Setter
+    public static class PopularFundingMainPageResponseDTO {
+        private int fundingId;
+        private String fundingImage;
+        private String category;
+        private String fundingTitle;
+        private int individualPrice;
+
+        public PopularFundingMainPageResponseDTO(FundingImage fundingImage) {
+            this.fundingId = fundingImage.getFunding().getId();
+            this.fundingImage = fundingImage.getFundingImage();
+            this.category = fundingImage.getFunding().getCategory();
+            this.fundingTitle = fundingImage.getFunding().getFundingTitle();
+            this.individualPrice = fundingImage.getFunding().getIndividualPrice();
+        }
+    }
+
+    @Getter
+    @Setter
     public static class UrgentFundingResponseDTO {
         private int fundingId;
         private String fundingImage;
