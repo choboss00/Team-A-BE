@@ -22,17 +22,17 @@ VALUES
     (NOW(), 1, 'Product 1', 'Summary for product 1', 'Description for product 1', '테크가전', 1000, 10000, '2024-03-01 00:00:00', '2024-03-15 00:00:00', 'OPEN_SCHEDULED'),
     (NOW(), 1, 'Product 2', 'Summary for product 2', 'Description for product 2', '테크가전', 2000, 20000, '2024-03-02 00:00:00', '2024-03-16 00:00:00', 'OPEN_SCHEDULED'),
     (NOW(), 1, 'Product 3', 'Summary for product 3', 'Description for product 3', '테크가전', 3000, 30000, '2024-03-03 00:00:00', '2024-03-17 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 1, 'Product 4', 'Summary for product 4', 'Description for product 4', '패션', 4000, 40000, '2024-03-04 00:00:00', '2024-03-18 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 1, 'Product 5', 'Summary for product 5', 'Description for product 5', '패션', 5000, 50000, '2024-03-05 00:00:00', '2024-03-19 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'Product 6', 'Summary for product 6', 'Description for product 6', '패션', 1000, 10000, '2024-03-01 00:00:00', '2024-03-15 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'Product 7', 'Summary for product 7', 'Description for product 7', '뷰티', 2000, 20000, '2024-03-02 00:00:00', '2024-03-16 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'Product 8', 'Summary for product 8', 'Description for product 8', '뷰티', 3000, 30000, '2024-03-03 00:00:00', '2024-03-17 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'Product 9', 'Summary for product 9', 'Description for product 9', '뷰티', 4000, 40000, '2024-03-04 00:00:00', '2024-03-18 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'Product 10', 'Summary for product 10', 'Description for product 10', '푸드', 5000, 50000, '2024-03-05 00:00:00', '2024-03-02 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'Product 11', 'Summary for product 11', 'Description for product 11', '푸드', 2000, 20000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 3, 'Product 12', 'Summary for product 12', 'Description for product 12', '도서', 3000, 30000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 3, 'Product 13', 'Summary for product 13', 'Description for product 13', '굿즈', 4000, 40000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 3, 'Product 14', 'Summary for product 14', 'Description for product 14', '잡화', 5000, 50000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT');
+    (NOW(), 1, 'fashion 1', 'Summary for fashion 1', 'Description for fashion 1', '패션', 4000, 40000, '2024-03-04 00:00:00', '2024-03-18 00:00:00', 'OPEN_SCHEDULED'),
+    (NOW(), 1, 'fashion 2', 'Summary for fashion 2', 'Description for fashion 2', '패션', 5000, 50000, '2024-03-05 00:00:00', '2024-03-19 00:00:00', 'OPEN_SCHEDULED'),
+    (NOW(), 2, 'fashion 3', 'Summary for fashion 3', 'Description for fashion 3', '패션', 1000, 10000, '2024-03-01 00:00:00', '2024-03-15 00:00:00', 'OPEN_SCHEDULED'),
+    (NOW(), 2, 'beauty 1', 'Summary for beauty 1', 'Description for beauty 1', '뷰티', 2000, 20000, '2024-03-02 00:00:00', '2024-03-16 00:00:00', 'OPEN_SCHEDULED'),
+    (NOW(), 2, 'beauty 2', 'Summary for beauty 2', 'Description for beauty 2', '뷰티', 3000, 30000, '2024-03-03 00:00:00', '2024-03-17 00:00:00', 'OPEN_SCHEDULED'),
+    (NOW(), 2, 'beauty 3', 'Summary for beauty 3', 'Description for beauty 3', '뷰티', 4000, 40000, '2024-03-04 00:00:00', '2024-03-18 00:00:00', 'OPEN_SCHEDULED'),
+    (NOW(), 2, 'food 1', 'Summary for food 1', 'Description for food 1', '푸드', 5000, 50000, '2024-03-05 00:00:00', '2024-03-02 00:00:00', 'OPEN_SCHEDULED'),
+    (NOW(), 2, 'food 2', 'Summary for food 2', 'Description for food 2', '푸드', 2000, 20000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
+    (NOW(), 3, 'book 1', 'Summary for book 1', 'Description for book 1', '도서', 3000, 30000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
+    (NOW(), 3, 'goods 1', 'Summary for goods 1', 'Description for goods 1', '굿즈', 4000, 40000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
+    (NOW(), 3, 'stuff 1', 'Summary for stuff 1', 'Description for stuff 1', '잡화', 5000, 50000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT');
 
 INSERT INTO funding_hearts (funding_id, user_id, created_at)
 VALUES
