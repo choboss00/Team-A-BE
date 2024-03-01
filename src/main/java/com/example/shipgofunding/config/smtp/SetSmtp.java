@@ -1,4 +1,4 @@
-package com.example.shipgofunding.config.VerficationCode;
+package com.example.shipgofunding.config.smtp;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -9,7 +9,7 @@ import org.springframework.mail.javamail.JavaMailSenderImpl;
 import java.util.Properties;
 // 이메일로 인증번호를 전송하기 위한 SMTP 설정
 @Configuration
-public class SendVerficationCode {
+public class SetSmtp {
     @Value("${spring.mail.password:qkrqhrja}")
     private String password;
     @Bean

@@ -4,7 +4,6 @@ import com.example.shipgofunding.config.Redis.RedisUtils;
 import com.example.shipgofunding.config.auth.PrincipalUserDetails;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
-import org.springframework.context.annotation.PropertySource;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -13,13 +12,13 @@ import java.util.UUID;
 
 
 @Service
-public class PasswordVerfication {
+public class SendVerficationcode {
 
     private final JavaMailSender javaMailSender;
     private final RedisUtils redisUtils;
     private PrincipalUserDetails principalUserDetails;
 
-    public PasswordVerfication(JavaMailSender javaMailSender, RedisUtils redisUtils) {
+    public SendVerficationcode(JavaMailSender javaMailSender, RedisUtils redisUtils) {
         this.javaMailSender = javaMailSender;
         this.redisUtils = redisUtils;
     }
@@ -33,11 +32,11 @@ public class PasswordVerfication {
         MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
         helper.setFrom("chee0630@naver.com"); //보내는사람
         helper.setTo(email); //받는사람
-        helper.setSubject("인증 번호 입니다"); //메일제목
-        helper.setText("이메일 인증코드: " + code);
+        helper.setSubject("이메일 인증 번호 입니다"); //메일제목
+        helper.setText("5분 안에 입력해주세요\n"+ "이메일 인증코드: " + code);
 
         // Redis에 인증 코드 저장 (5분 동안 유지)
-        redisUtils.setDataExpire("chee0630@naver.com", code, 60 * 5L);
+        redisUtils.setDataExpire(email, code, 60 * 5L);
         javaMailSender.send(mimeMessage);
     }
 

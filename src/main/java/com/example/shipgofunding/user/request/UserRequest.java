@@ -5,11 +5,13 @@ import lombok.Getter;
 import lombok.Setter;
 import com.example.shipgofunding.user.domain.RoleEnum;
 import com.example.shipgofunding.user.domain.User;
+import org.springframework.stereotype.Component;
 
 public class UserRequest {
 
     @Getter
     @Setter
+    @Component
     public static class SignupRequestDTO {
         @NotNull(message = "이메일은 필수 입력 값입니다.")
         @Pattern(regexp = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$", message = "Invalid email format")
