@@ -33,6 +33,7 @@ public class FundingResponse {
         private String category;
         private String fundingTitle;
         private int individualPrice;
+        private String nickname;
 
         public PopularFundingMainPageResponseDTO(FundingImage fundingImage) {
             this.fundingId = fundingImage.getFunding().getId();
@@ -40,6 +41,7 @@ public class FundingResponse {
             this.category = fundingImage.getFunding().getCategory();
             this.fundingTitle = fundingImage.getFunding().getFundingTitle();
             this.individualPrice = fundingImage.getFunding().getIndividualPrice();
+            this.nickname = fundingImage.getFunding().getUser().getNickname();
         }
     }
 
