@@ -16,11 +16,11 @@ public class FundingResponse {
     @Setter
     public static class BannerResponseDTO {
         private int bannerId;
-        private String bannerImageUrl;
+        private String bannerImage;
 
         public BannerResponseDTO(Banner banner) {
             this.bannerId = banner.getId();
-            this.bannerImageUrl = banner.getImage();
+            this.bannerImage = banner.getImage();
         }
 
     }
