@@ -138,6 +138,27 @@ public class FundingTest {
     }
 
     @Test
+    @DisplayName("펀딩 상품 목록 검색 + 인기순 조회 결과 조회 테스트")
+    void FundingTestWithSearchAndSortLikes() throws Exception {
+        // given
+        String search = "Product";
+        String sorted = "인기순";
+
+        // when
+        ResultActions resultActions = mvc.perform(get("/api/fundings")
+                .param("search", search)
+                .param("sorted", sorted)
+                .contentType("application/json;charset=UTF-8"));
+
+        // then
+        String response = resultActions.andReturn().getResponse().getContentAsString();
+
+        System.out.println("테스트 : " + response);
+
+        resultActions.andExpect(jsonPath("$.status").value("success"));
+    }
+
+    @Test
     @DisplayName("펀딩 상품 목록 가격 설정 테스트")
     void FundingTestWithPrice() throws Exception {
         // given
