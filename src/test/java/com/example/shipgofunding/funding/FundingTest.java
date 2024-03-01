@@ -64,5 +64,22 @@ public class FundingTest {
         resultActions.andExpect(jsonPath("$.status").value("success"));
     }
 
+    @Test
+    @DisplayName("인기 상품 6개 조회 테스트 코드")
+    void PopularMainPageFundingTest() throws Exception {
+        // given
+
+        // when
+        ResultActions resultActions = mvc.perform(get("/api/fundings/popular")
+                .contentType("application/json;charset=UTF-8"));
+
+        // then
+        String response = resultActions.andReturn().getResponse().getContentAsString();
+
+        System.out.println("테스트 : " + response);
+
+        resultActions.andExpect(jsonPath("$.status").value("success"));
+    }
+
 
 }
