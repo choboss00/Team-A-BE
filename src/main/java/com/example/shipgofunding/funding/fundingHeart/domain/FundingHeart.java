@@ -1,4 +1,4 @@
-package com.example.shipgofunding.funding.fundingHeart;
+package com.example.shipgofunding.funding.fundingHeart.domain;
 
 import com.example.shipgofunding.config.utils.MetaData;
 import com.example.shipgofunding.funding.domain.Funding;
@@ -15,7 +15,7 @@ import org.hibernate.annotations.SQLRestriction;
 @SQLDelete(sql = "UPDATE funding_hearts SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
 @Entity
 @Table(name = "funding_hearts")
-public class fundingHeart extends MetaData {
+public class FundingHeart extends MetaData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
