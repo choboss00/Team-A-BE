@@ -10,7 +10,7 @@ import java.util.Properties;
 // 이메일로 인증번호를 전송하기 위한 SMTP 설정
 @Configuration
 public class SendVerficationCode {
-    @Value("${spring.mail.password}")
+    @Value("${spring.mail.password:qkrqhrja}")
     private String password;
     @Bean
     public JavaMailSender javaMailService() {

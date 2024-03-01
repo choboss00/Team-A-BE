@@ -1,5 +1,7 @@
 package com.example.shipgofunding.config.Redis;
 
+
+import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -8,16 +10,18 @@ import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
-@PropertySource("classpath:Redis.yml")
-@Configuration
 
+@Configuration
+@PropertySource("classpath:Redis.yml")
 public class redisConfig {
         //redis 설정
-        @Value("${spring.redis.host}")
+        @Value("${spring.redis.host:127.0.0.1}")
         private String host;
 
-        @Value("${spring.redis.port}")
+
+        @Value("${spring.redis.port:6379}")
         private int port;
+
 
         @Bean
         public RedisConnectionFactory redisConnectionFactory() {
