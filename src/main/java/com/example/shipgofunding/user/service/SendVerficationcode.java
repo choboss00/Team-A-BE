@@ -5,6 +5,7 @@ import com.example.shipgofunding.config.auth.PrincipalUserDetails;
 import com.example.shipgofunding.config.errors.exception.Exception400;
 import com.example.shipgofunding.config.utils.ApiResponseBuilder;
 import com.example.shipgofunding.user.repository.UserRepository;
+import com.example.shipgofunding.user.request.UserRequest;
 import jakarta.mail.MessagingException;
 import jakarta.mail.internet.MimeMessage;
 import org.springframework.http.HttpStatus;
@@ -30,7 +31,8 @@ public class SendVerficationcode {
     }
 
     // 인증번호 이메일 보내기
-    public void sendMail (String email) throws MessagingException {
+    public void sendMail (UserRequest.SendEmailRequestDTO sendEmailRequestDTO) throws MessagingException {
+        String email = sendEmailRequestDTO.getEmail();
         if (!userRepository.existsByEmail(email)){
             throw new Exception400(null,"존재하는 사용자가 없습니다.");
         }
@@ -52,7 +54,9 @@ public class SendVerficationcode {
         }
     }
 
-    public  void VerficationEmail(String email, String Usercode){
+    public  void VerficationEmail(UserRequest.VerficationRequestDTO verficationRequestDTO){
+        String email = verficationRequestDTO.getEmail();
+        String Usercode = verficationRequestDTO.getUsercode();
         if(!Usercode.equals(redisUtils.getData(email))){
             throw new Exception400(null,"인증번호를 다시 입력해주세요");
         }

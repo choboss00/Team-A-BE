@@ -2,7 +2,9 @@ package com.example.shipgofunding.user.response;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.stereotype.Component;
 
 public class UserResponse {
 
@@ -43,6 +45,7 @@ public class UserResponse {
         @Getter
         @Setter
         public static class LoginResponseDTO {
+
                 @Schema(description = "회원 이메일", example = "example@example.com")
                 String email;
 
@@ -52,10 +55,14 @@ public class UserResponse {
                 @Schema(description = "회원 프로필 이미지", example = "https://example.com/example.jpg")
                 String profileImage;
 
-                public LoginResponseDTO(String email, String nickname, String profileImage) {
+                @Schema(description = "유저 아이디")
+                Long id;
+
+                public LoginResponseDTO(String email, String nickname, String profileImage,Long id) {
                         this.email = email;
                         this.nickname = nickname;
                         this.profileImage = profileImage;
+                        this.id=id;
                 }
 
         }
@@ -66,7 +73,9 @@ public class UserResponse {
                 @Schema(description = "회원 이메일", example = "tess@test.com")
                 String email;
 
-                @Schema(description = "인증 코드", example = "123js9")
-                String Usercode;
+                public VerficationResponseDTO(String email){
+                        this.email=email;
+                }
+
         }
 }
