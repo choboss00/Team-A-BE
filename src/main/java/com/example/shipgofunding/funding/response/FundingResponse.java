@@ -39,12 +39,12 @@ public class FundingResponse {
         private int likes;
 
         // likes 의 경우 직접 DB 에서 조회 후 값을 넣어줄 예정
-        public FundingResponseDTO(FundingImage fundingImage) {
+        public FundingResponseDTO(FundingImage fundingImage, int count) {
             this.fundingId = fundingImage.getFunding().getId();
             this.fundingTitle = fundingImage.getFunding().getFundingTitle();
             this.fundingImage = fundingImage.getFundingImage();
             this.individualPrice = fundingImage.getFunding().getIndividualPrice();
-            this.fundingPercent = calculateFundingPercent(fundingImage.getFunding());
+            this.fundingPercent = calculateFundingPercent(fundingImage.getFunding()) * count;
             this.nickname = fundingImage.getFunding().getUser().getNickname();
             this.likes = fundingImage.getFunding().getLikesCount();
         }

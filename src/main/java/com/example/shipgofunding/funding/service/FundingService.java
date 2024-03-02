@@ -6,13 +6,12 @@ import com.example.shipgofunding.funding.domain.Funding;
 import com.example.shipgofunding.funding.fundingHeart.repository.FundingHeartJpaRepository;
 import com.example.shipgofunding.funding.image.domain.FundingImage;
 import com.example.shipgofunding.funding.image.repository.FundingImageJpaRepository;
+import com.example.shipgofunding.funding.participatingFunding.repository.ParticipatingFundingJpaRepository;
 import com.example.shipgofunding.funding.repository.FundingJpaRepository;
 import com.example.shipgofunding.funding.response.FundingResponse.FundingResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.PopularFundingMainPageResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.BannerResponseDTO;
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,9 +23,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
-import java.util.Comparator;
 import java.util.List;
-import java.util.Optional;
 
 @Transactional
 @RequiredArgsConstructor
@@ -38,12 +35,15 @@ public class FundingService {
     private FundingImageJpaRepository fundingImageJpaRepository;
     private FundingHeartJpaRepository fundingHeartJpaRepository;
 
+    private ParticipatingFundingJpaRepository participatingFundingJpaRepository;
+
     @Autowired
-    public FundingService(BannerJpaRepository bannerJpaRepository, FundingJpaRepository fundingJpaRepository, FundingImageJpaRepository fundingImageJpaRepository, FundingHeartJpaRepository fundingHeartJpaRepository) {
+    public FundingService(BannerJpaRepository bannerJpaRepository, FundingJpaRepository fundingJpaRepository, FundingImageJpaRepository fundingImageJpaRepository, FundingHeartJpaRepository fundingHeartJpaRepository, ParticipatingFundingJpaRepository participatingFundingJpaRepository) {
         this.bannerJpaRepository = bannerJpaRepository;
         this.fundingJpaRepository = fundingJpaRepository;
         this.fundingImageJpaRepository = fundingImageJpaRepository;
         this.fundingHeartJpaRepository = fundingHeartJpaRepository;
+        this.participatingFundingJpaRepository = participatingFundingJpaRepository;
     }
 
     public List<BannerResponseDTO> getMainBanners() {
@@ -137,7 +137,9 @@ public class FundingService {
         for (Funding funding : fundings) {
             FundingImage fundingImage = findFirstByFundingId(funding.getId());
 
-            fundingResponseDTOs.add(new FundingResponseDTO(fundingImage));
+            int count = participatingFundingJpaRepository.countByFundingId(funding.getId());
+
+            fundingResponseDTOs.add(new FundingResponseDTO(fundingImage, count));
         }
 
         return fundingResponseDTOs;
