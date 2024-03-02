@@ -6,6 +6,7 @@ TRUNCATE TABLE users;
 TRUNCATE TABLE funding_images;
 TRUNCATE TABLE funding_hearts;
 TRUNCATE TABLE users;
+TRUNCATE TABLE participating_fundings;
 SET REFERENTIAL_INTEGRITY TRUE;
 
 INSERT INTO users (created_at, email, password, nickname, role)
@@ -33,6 +34,11 @@ VALUES
     (NOW(), 3, 'book 1', 'Summary for book 1', 'Description for book 1', '도서', 3000, 30000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
     (NOW(), 3, 'goods 1', 'Summary for goods 1', 'Description for goods 1', '굿즈', 4000, 40000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
     (NOW(), 3, 'stuff 1', 'Summary for stuff 1', 'Description for stuff 1', '잡화', 5000, 50000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT');
+
+INSERT INTO participating_fundings (funding_id, user_id, created_at)
+VALUES
+    (11, 1, NOW()),
+    (11, 3, NOW());
 
 INSERT INTO funding_hearts (funding_id, user_id, created_at)
 VALUES
