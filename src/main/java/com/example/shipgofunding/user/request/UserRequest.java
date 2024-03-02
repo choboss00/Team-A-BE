@@ -49,4 +49,22 @@ public class UserRequest {
             this.password = password;
         }
     }
+
+    @Getter
+    @Setter
+    public static class VerficationDTO{
+        @NotNull(message =  "이메일은 필수 입력 값입니다.")
+        private String email;
+
+        @NotNull(message = "인증코드는 필수 입력 값입니다.")
+        @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{1,6}$", message = "Password must be a combination of letters and numbers, and should be between 1 and 6 characters long.")
+        private String Usercode;
+
+        public VerficationDTO(String email, String Usercode){
+            this.email=email;
+            this.Usercode=Usercode;
+        }
+    }
+
+
 }

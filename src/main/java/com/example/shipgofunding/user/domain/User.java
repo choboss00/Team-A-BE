@@ -29,6 +29,7 @@ public class User extends MetaData {
     @Column(name = "nickname", nullable = false)
     private String nickname;
 
+    @Enumerated(EnumType.STRING)
     @Column(name="role")
     private RoleEnum role;
 

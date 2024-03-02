@@ -59,4 +59,14 @@ public class UserResponse {
                 }
 
         }
+
+        @Getter
+        @Setter
+        public static class VerficationResponseDTO{
+                @Schema(description = "회원 이메일", example = "tess@test.com")
+                String email;
+
+                @Schema(description = "인증 코드", example = "123js9")
+                String Usercode;
+        }
 }
