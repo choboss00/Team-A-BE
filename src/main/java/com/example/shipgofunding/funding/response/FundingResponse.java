@@ -10,6 +10,8 @@ import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
+import static com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO.calculateTimeRemaining;
+
 public class FundingResponse {
 
     @Getter
@@ -23,6 +25,33 @@ public class FundingResponse {
             this.bannerImage = banner.getImage();
         }
 
+    }
+
+    @Getter
+    @Setter
+    public static class FundingResponseDTO {
+        private int fundingId;
+        private String fundingTitle;
+        private String fundingImage;
+        private int individualPrice;
+        private double fundingPercent;
+        private String nickname;
+        private int likes;
+
+        // likes 의 경우 직접 DB 에서 조회 후 값을 넣어줄 예정
+        public FundingResponseDTO(FundingImage fundingImage, int count) {
+            this.fundingId = fundingImage.getFunding().getId();
+            this.fundingTitle = fundingImage.getFunding().getFundingTitle();
+            this.fundingImage = fundingImage.getFundingImage();
+            this.individualPrice = fundingImage.getFunding().getIndividualPrice();
+            this.fundingPercent = calculateFundingPercent(fundingImage.getFunding()) * count;
+            this.nickname = fundingImage.getFunding().getUser().getNickname();
+            this.likes = fundingImage.getFunding().getLikesCount();
+        }
+
+        private double calculateFundingPercent(Funding funding) {
+            return (double) funding.getIndividualPrice() / funding.getTotalPrice() * 100;
+        }
     }
 
     @Getter
@@ -65,7 +94,7 @@ public class FundingResponse {
         }
 
         // 종료 시간까지 남은 시간을 계산하는 메소드
-        private String calculateTimeRemaining(LocalDateTime endDate) {
+        public static String calculateTimeRemaining(LocalDateTime endDate) {
             LocalDateTime now = LocalDateTime.now();
             Duration duration = Duration.between(now, endDate);
             long hours = duration.toHours();
