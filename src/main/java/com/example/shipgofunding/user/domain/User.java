@@ -5,8 +5,10 @@ import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
+import org.springframework.stereotype.Component;
 
 @Getter
+@Component
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @SQLRestriction("deleted_at IS NULL")
 @SQLDelete(sql = "UPDATE users SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
@@ -39,6 +41,12 @@ public class User extends MetaData {
         this.email = email;
         this.nickname = nickname;
         this.password = password;
+    }
+    @Builder
+    //비밀번호 변경
+    public void setPassword(String newPassword) {
+        this.email=email;
+        this.password = newPassword;
     }
 
 }

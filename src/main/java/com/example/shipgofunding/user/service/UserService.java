@@ -36,7 +36,7 @@ public class UserService {
 
         String token = tokenProvider.createToken(user.getEmail());
 
-        LoginResponseDTO loginResponseDTO = new LoginResponseDTO(user.getEmail(), user.getNickname(), user.getImage());
+        LoginResponseDTO loginResponseDTO = new LoginResponseDTO(user.getEmail(), user.getNickname(), user.getImage(), user.getId());
 
         return new LoginResponseWithTokenDTO(loginResponseDTO, token);
     }

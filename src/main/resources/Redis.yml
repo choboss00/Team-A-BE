@@ -1,0 +1,18 @@
+spring:
+  mail:
+    host: smtp.naver.com
+    port: 465
+    username: "chee0630"
+    password: "qkrqhrja"
+    properties:
+      mail:
+        smtp:
+          auth: true
+          starttls:
+            enable: true
+          ssl:
+            enable : true
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
