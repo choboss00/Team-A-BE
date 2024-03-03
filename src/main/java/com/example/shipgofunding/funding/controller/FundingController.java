@@ -1,9 +1,10 @@
 package com.example.shipgofunding.funding.controller;
 
 import com.example.shipgofunding.config.utils.ApiResponseBuilder;
+import com.example.shipgofunding.funding.banner.response.BannerResponse.BannerResponseDTO;
+import com.example.shipgofunding.funding.response.FundingResponse.FundingDetailResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.FundingResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.PopularFundingMainPageResponseDTO;
-import com.example.shipgofunding.funding.response.FundingResponse.BannerResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO;
 import com.example.shipgofunding.funding.service.FundingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -94,6 +95,17 @@ public class FundingController {
         List<FundingResponseDTO> fundings = fundingService.getFundings(category, search, min_price, max_price, sorted, pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundings));
+    }
+
+    @Operation(summary = "상품 상세 조회", description = "상품 상세 정보를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 상품 상세 정보 조회",
+    content = @Content(mediaType = "application/json",
+    schema = @Schema(implementation = FundingDetailResponseDTO.class)))
+    @GetMapping("/fundings/{fundingId}")
+    public ResponseEntity<?> getFundingDetail(@RequestParam int fundingId) {
+        //TO-DO : 펀딩 상세 정보를 조회하는 로직 구현하기
+        FundingDetailResponseDTO fundingDetail = fundingService.getFundingDetail(fundingId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingDetail));
     }
 
 }

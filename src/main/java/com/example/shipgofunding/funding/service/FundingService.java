@@ -1,17 +1,23 @@
 package com.example.shipgofunding.funding.service;
 
+import com.example.shipgofunding.comment.domain.Comment;
+import com.example.shipgofunding.comment.repository.CommentJpaRepository;
+import com.example.shipgofunding.comment.response.CommentResponse.CommentResponseDTO;
+import com.example.shipgofunding.config.errors.exception.Exception404;
 import com.example.shipgofunding.funding.banner.domain.Banner;
 import com.example.shipgofunding.funding.banner.repository.BannerJpaRepository;
+import com.example.shipgofunding.funding.banner.response.BannerResponse.BannerResponseDTO;
 import com.example.shipgofunding.funding.domain.Funding;
 import com.example.shipgofunding.funding.fundingHeart.repository.FundingHeartJpaRepository;
 import com.example.shipgofunding.funding.image.domain.FundingImage;
 import com.example.shipgofunding.funding.image.repository.FundingImageJpaRepository;
+import com.example.shipgofunding.funding.image.response.FundingImageResponse.FundingImageResponseDTO;
 import com.example.shipgofunding.funding.participatingFunding.repository.ParticipatingFundingJpaRepository;
 import com.example.shipgofunding.funding.repository.FundingJpaRepository;
+import com.example.shipgofunding.funding.response.FundingResponse.FundingDetailResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.FundingResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.PopularFundingMainPageResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO;
-import com.example.shipgofunding.funding.response.FundingResponse.BannerResponseDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +30,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @RequiredArgsConstructor
@@ -34,16 +41,17 @@ public class FundingService {
     private FundingJpaRepository fundingJpaRepository;
     private FundingImageJpaRepository fundingImageJpaRepository;
     private FundingHeartJpaRepository fundingHeartJpaRepository;
-
     private ParticipatingFundingJpaRepository participatingFundingJpaRepository;
+    private CommentJpaRepository commentJpaRepository;
 
     @Autowired
-    public FundingService(BannerJpaRepository bannerJpaRepository, FundingJpaRepository fundingJpaRepository, FundingImageJpaRepository fundingImageJpaRepository, FundingHeartJpaRepository fundingHeartJpaRepository, ParticipatingFundingJpaRepository participatingFundingJpaRepository) {
+    public FundingService(BannerJpaRepository bannerJpaRepository, FundingJpaRepository fundingJpaRepository, FundingImageJpaRepository fundingImageJpaRepository, FundingHeartJpaRepository fundingHeartJpaRepository, ParticipatingFundingJpaRepository participatingFundingJpaRepository, CommentJpaRepository commentJpaRepository) {
         this.bannerJpaRepository = bannerJpaRepository;
         this.fundingJpaRepository = fundingJpaRepository;
         this.fundingImageJpaRepository = fundingImageJpaRepository;
         this.fundingHeartJpaRepository = fundingHeartJpaRepository;
         this.participatingFundingJpaRepository = participatingFundingJpaRepository;
+        this.commentJpaRepository = commentJpaRepository;
     }
 
     public List<BannerResponseDTO> getMainBanners() {
@@ -146,4 +154,27 @@ public class FundingService {
 
     }
 
+    /**
+     * 1. 펀딩 상품 목록 조회
+     * 2. 펀딩 상품의 이미지 목록 조회
+     * 3. 펀딩 상품의 댓글 목록 조회
+     * **/
+    public FundingDetailResponseDTO getFundingDetail(int fundingId) {
+        Funding funding = fundingJpaRepository.findById(fundingId)
+                .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
+
+        List<FundingImage> fundingImages = fundingImageJpaRepository.findAllByFundingId(fundingId);
+
+        List<FundingImageResponseDTO> fundingImageResponses = fundingImages.stream()
+                .map(FundingImageResponseDTO::new)
+                .collect(Collectors.toList());
+
+        List<Comment> comments = commentJpaRepository.findAllByFundingId(fundingId);
+
+        List<CommentResponseDTO> commentResponses = comments.stream()
+                .map(CommentResponseDTO::new)
+                .collect(Collectors.toList());
+
+        return new FundingDetailResponseDTO(funding, fundingImageResponses, commentResponses);
+    }
 }
