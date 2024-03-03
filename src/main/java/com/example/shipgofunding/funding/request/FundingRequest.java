@@ -1,5 +1,6 @@
 package com.example.shipgofunding.funding.request;
 
+import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -7,12 +8,13 @@ import lombok.Setter;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.regex.Pattern;
 
 public class FundingRequest {
 
     @Getter
     @Setter
-    public static class createFundingRequestDTO {
+    public static class CreateFundingRequestDTO {
 
         @NotNull(message = "카테고리는 필수 입력 값입니다.")
         private String category;
@@ -41,7 +43,14 @@ public class FundingRequest {
         private String fundingDescription;
 
         @NotNull(message = "이미지 URL 리스트는 필수 입력 값입니다.")
+        @Size(min = 1, message = "이미지 URL은 최소 1개 이상 입력해주세요.")
         private List<String> imageUrls;
+
+        // 이미지 URL 확장자 검증 로직
+        public boolean isValidImageUrls() {
+            Pattern imagePattern = Pattern.compile("([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)");
+            return imageUrls.stream().allMatch(url -> imagePattern.matcher(url).matches());
+        }
 
     }
 }
