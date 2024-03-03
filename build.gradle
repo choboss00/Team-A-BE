@@ -37,6 +37,7 @@ dependencies {
     implementation 'com.h2database:h2'
 
     implementation 'org.springdoc:springdoc-openapi-starter-webmvc-ui:2.0.2'
+
     //SMTP
     implementation 'org.springframework.boot:spring-boot-starter-mail'
 
@@ -48,7 +49,12 @@ dependencies {
     // aws s3
     implementation 'org.springframework.cloud:spring-cloud-starter-aws:2.2.6.RELEASE'
 
+    //OAuth
+    implementation 'org.springframework.security:spring-security-oauth2-client'
+
 }
+
+
 
 tasks.named('test') {
     useJUnitPlatform()

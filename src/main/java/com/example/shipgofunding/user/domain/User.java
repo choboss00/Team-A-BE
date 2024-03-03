@@ -35,6 +35,11 @@ public class User extends MetaData {
     @Column(name="role")
     private RoleEnum role;
 
+    //sns 인증 로그인 사용
+    @Column(name="username")
+    private String username;
+
+
     @Builder
     public User(String email, String password, String nickname, RoleEnum role) {
         this.role = role;
@@ -48,5 +53,7 @@ public class User extends MetaData {
         this.email=email;
         this.password = newPassword;
     }
+
+
 
 }
