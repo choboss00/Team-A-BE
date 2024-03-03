@@ -301,6 +301,24 @@ public class FundingTest {
 
         resultActions.andExpect(jsonPath("$.status").value("success"));
     }
+
+    @Test
+    @DisplayName("펀딩 상세 페이지 조회 테스트")
+    void FundingDetailGetTest() throws Exception {
+        // given
+        int id = 14;
+
+        // when
+        ResultActions resultActions = mvc.perform(get("/api/fundings/" + id)
+                .contentType("application/json;charset=UTF-8"));
+
+        // then
+        String response = resultActions.andReturn().getResponse().getContentAsString();
+
+        System.out.println("테스트 : " + response);
+
+        resultActions.andExpect(jsonPath("$.status").value("success"));
+    }
     
 
 

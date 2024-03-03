@@ -1,31 +1,21 @@
 package com.example.shipgofunding.funding.response;
 
+import com.example.shipgofunding.comment.domain.Comment;
+import com.example.shipgofunding.comment.response.CommentResponse.CommentResponseDTO;
 import com.example.shipgofunding.funding.banner.domain.Banner;
 import com.example.shipgofunding.funding.domain.Funding;
+import com.example.shipgofunding.funding.domain.FundingEnum;
 import com.example.shipgofunding.funding.image.domain.FundingImage;
+import com.example.shipgofunding.funding.image.response.FundingImageResponse.FundingImageResponseDTO;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
-
-import static com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO.calculateTimeRemaining;
+import java.util.List;
 
 public class FundingResponse {
-
-    @Getter
-    @Setter
-    public static class BannerResponseDTO {
-        private int bannerId;
-        private String bannerImage;
-
-        public BannerResponseDTO(Banner banner) {
-            this.bannerId = banner.getId();
-            this.bannerImage = banner.getImage();
-        }
-
-    }
 
     @Getter
     @Setter
@@ -94,7 +84,7 @@ public class FundingResponse {
         }
 
         // 종료 시간까지 남은 시간을 계산하는 메소드
-        public static String calculateTimeRemaining(LocalDateTime endDate) {
+        public String calculateTimeRemaining(LocalDateTime endDate) {
             LocalDateTime now = LocalDateTime.now();
             Duration duration = Duration.between(now, endDate);
             long hours = duration.toHours();
@@ -108,6 +98,39 @@ public class FundingResponse {
                 return String.format("%02d:%02d:%02d", hours, minutes, seconds);
             }
         }
+    }
+
+    @Getter
+    @Setter
+    public static class FundingDetailResponseDTO {
+        private int fundingId;
+        private String category;
+        private FundingEnum state;
+        private String fundingTitle;
+        private String fundingSummary;
+        private double fundingPercent;
+        private int individualPrice;
+        private List<FundingImageResponseDTO> fundingImages;
+        private String fundingDescription;
+        private List<CommentResponseDTO> comments;
+
+        public FundingDetailResponseDTO(Funding funding, List<FundingImageResponseDTO> fundingImages, List<CommentResponseDTO> comments) {
+            this.fundingId = funding.getId();
+            this.category = funding.getCategory();
+            this.state = funding.getFundingEnum();
+            this.fundingTitle = funding.getFundingTitle();
+            this.fundingSummary = funding.getFundingSummary();
+            this.fundingPercent = calculateFundingPercent(funding);
+            this.individualPrice = funding.getIndividualPrice();
+            this.fundingImages = fundingImages;
+            this.fundingDescription = funding.getFundingDescription();
+            this.comments = comments;
+        }
+
+        private double calculateFundingPercent(Funding funding) {
+            return (double) funding.getIndividualPrice() / funding.getTotalPrice() * 100;
+        }
+
     }
 
 

@@ -1,9 +1,15 @@
 package com.example.shipgofunding.funding.controller;
 
+import com.example.shipgofunding.config.auth.PrincipalUserDetails;
+import com.example.shipgofunding.config.errors.exception.Exception400;
+import com.example.shipgofunding.config.errors.exception.Exception401;
+import com.example.shipgofunding.config.s3.S3UploadService;
 import com.example.shipgofunding.config.utils.ApiResponseBuilder;
+import com.example.shipgofunding.funding.banner.response.BannerResponse.BannerResponseDTO;
+import com.example.shipgofunding.funding.request.FundingRequest.CreateFundingRequestDTO;
+import com.example.shipgofunding.funding.response.FundingResponse.FundingDetailResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.FundingResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.PopularFundingMainPageResponseDTO;
-import com.example.shipgofunding.funding.response.FundingResponse.BannerResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO;
 import com.example.shipgofunding.funding.service.FundingService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -11,19 +17,21 @@ import io.swagger.v3.oas.annotations.media.Content;
 import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import lombok.Value;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.validation.Errors;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @Tag(name = "Product", description = "상품 API")
@@ -33,6 +41,7 @@ import java.util.List;
 public class FundingController {
 
     private final FundingService fundingService;
+    private final S3UploadService s3UploadService;
 
     @Operation(summary = "메인 배너 조회", description = "메인 페이지에 표시될 배너 데이터를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "성공적으로 배너 데이터 조회",
@@ -94,6 +103,42 @@ public class FundingController {
         List<FundingResponseDTO> fundings = fundingService.getFundings(category, search, min_price, max_price, sorted, pageable);
 
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundings));
+    }
+
+    @Operation(summary = "상품 상세 조회", description = "상품 상세 정보를 조회합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 상품 상세 정보 조회",
+    content = @Content(mediaType = "application/json",
+    schema = @Schema(implementation = FundingDetailResponseDTO.class)))
+    @GetMapping("/fundings/{fundingId}")
+    public ResponseEntity<?> getFundingDetail(@PathVariable int fundingId) {
+        //TO-DO : 펀딩 상세 정보를 조회하는 로직 구현하기
+        FundingDetailResponseDTO fundingDetail = fundingService.getFundingDetail(fundingId);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingDetail));
+    }
+
+    @Operation(summary = "상품 등록", description = "상품을 등록합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 상품 등록")
+    @PostMapping("/fundings")
+    public ResponseEntity<?> createFunding(@RequestBody @Valid CreateFundingRequestDTO requestDTO, Errors errors, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        int fundingId = fundingService.saveFunding(requestDTO, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingId));
+    }
+
+    @Operation(summary = "상품 이미지 업로드", description = "상품 이미지를 업로드합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 이미지 업로드")
+    @PostMapping(value = "/fundings/images", consumes = MediaType.MULTIPART_FORM_DATA_VALUE)
+    public ResponseEntity<?> uploadImages(@RequestPart @Valid List<MultipartFile> images, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+
+        if ( fundingService.validateUser(userDetails) == null ) {
+            throw new Exception401("이미지를 업로드할 권한이 없습니다.");
+        }
+
+        try {
+            List<String> uploadedImageUrls = s3UploadService.uploadMultipleFiles(images);
+            return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(uploadedImageUrls));
+        } catch (IOException e) {
+            throw new Exception400(null, "이미지 업로드에 실패했습니다.");
+        }
     }
 
 }

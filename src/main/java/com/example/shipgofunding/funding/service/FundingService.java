@@ -1,17 +1,28 @@
 package com.example.shipgofunding.funding.service;
 
+import com.example.shipgofunding.comment.domain.Comment;
+import com.example.shipgofunding.comment.repository.CommentJpaRepository;
+import com.example.shipgofunding.comment.response.CommentResponse.CommentResponseDTO;
+import com.example.shipgofunding.config.auth.PrincipalUserDetails;
+import com.example.shipgofunding.config.errors.exception.Exception400;
+import com.example.shipgofunding.config.errors.exception.Exception404;
 import com.example.shipgofunding.funding.banner.domain.Banner;
 import com.example.shipgofunding.funding.banner.repository.BannerJpaRepository;
+import com.example.shipgofunding.funding.banner.response.BannerResponse.BannerResponseDTO;
 import com.example.shipgofunding.funding.domain.Funding;
 import com.example.shipgofunding.funding.fundingHeart.repository.FundingHeartJpaRepository;
 import com.example.shipgofunding.funding.image.domain.FundingImage;
 import com.example.shipgofunding.funding.image.repository.FundingImageJpaRepository;
+import com.example.shipgofunding.funding.image.response.FundingImageResponse.FundingImageResponseDTO;
 import com.example.shipgofunding.funding.participatingFunding.repository.ParticipatingFundingJpaRepository;
 import com.example.shipgofunding.funding.repository.FundingJpaRepository;
+import com.example.shipgofunding.funding.request.FundingRequest.CreateFundingRequestDTO;
+import com.example.shipgofunding.funding.response.FundingResponse.FundingDetailResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.FundingResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.PopularFundingMainPageResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO;
-import com.example.shipgofunding.funding.response.FundingResponse.BannerResponseDTO;
+import com.example.shipgofunding.user.domain.User;
+import com.example.shipgofunding.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -24,6 +35,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Transactional
 @RequiredArgsConstructor
@@ -34,16 +46,19 @@ public class FundingService {
     private FundingJpaRepository fundingJpaRepository;
     private FundingImageJpaRepository fundingImageJpaRepository;
     private FundingHeartJpaRepository fundingHeartJpaRepository;
-
     private ParticipatingFundingJpaRepository participatingFundingJpaRepository;
+    private CommentJpaRepository commentJpaRepository;
+    private UserRepository userRepository;
 
     @Autowired
-    public FundingService(BannerJpaRepository bannerJpaRepository, FundingJpaRepository fundingJpaRepository, FundingImageJpaRepository fundingImageJpaRepository, FundingHeartJpaRepository fundingHeartJpaRepository, ParticipatingFundingJpaRepository participatingFundingJpaRepository) {
+    public FundingService(BannerJpaRepository bannerJpaRepository, FundingJpaRepository fundingJpaRepository, FundingImageJpaRepository fundingImageJpaRepository, FundingHeartJpaRepository fundingHeartJpaRepository, ParticipatingFundingJpaRepository participatingFundingJpaRepository, CommentJpaRepository commentJpaRepository, UserRepository userRepository) {
         this.bannerJpaRepository = bannerJpaRepository;
         this.fundingJpaRepository = fundingJpaRepository;
         this.fundingImageJpaRepository = fundingImageJpaRepository;
         this.fundingHeartJpaRepository = fundingHeartJpaRepository;
         this.participatingFundingJpaRepository = participatingFundingJpaRepository;
+        this.commentJpaRepository = commentJpaRepository;
+        this.userRepository = userRepository;
     }
 
     public List<BannerResponseDTO> getMainBanners() {
@@ -146,4 +161,73 @@ public class FundingService {
 
     }
 
+    /**
+     * 1. 펀딩 상품 목록 조회
+     * 2. 펀딩 상품의 이미지 목록 조회
+     * 3. 펀딩 상품의 댓글 목록 조회
+     * **/
+    public FundingDetailResponseDTO getFundingDetail(int fundingId) {
+        Funding funding = fundingJpaRepository.findById(fundingId)
+                .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
+
+        List<FundingImage> fundingImages = fundingImageJpaRepository.findAllByFundingId(fundingId);
+
+        List<FundingImageResponseDTO> fundingImageResponses = fundingImages.stream()
+                .map(FundingImageResponseDTO::new)
+                .collect(Collectors.toList());
+
+        List<Comment> comments = commentJpaRepository.findAllByFundingId(fundingId);
+
+        List<CommentResponseDTO> commentResponses = comments.stream()
+                .map(CommentResponseDTO::new)
+                .collect(Collectors.toList());
+
+        return new FundingDetailResponseDTO(funding, fundingImageResponses, commentResponses);
+    }
+
+    public User validateUser(PrincipalUserDetails userDetails) {
+        // 사용자 인증 로직 구현
+        return userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new Exception404("유저 정보를 찾을 수 없습니다."));
+    }
+    @Transactional
+    public int saveFunding(CreateFundingRequestDTO requestDTO, PrincipalUserDetails userDetails) {
+        /**
+         * 1. user 인증 과정
+         * 2. 펀딩 상품 저장
+         * 3. 펀딩 이미지 저장
+         * **/
+        // 올바른 이미지 확장자를 넣었는지 인증하는 로직
+        if (!requestDTO.isValidImageUrls()) {
+            throw new Exception400(null, "하나 이상의 이미지 URL이 유효하지 않은 형식입니다.");
+        }
+
+        User user = validateUser(userDetails);
+
+        Funding funding = Funding.builder()
+                .user(user)
+                .fundingTitle(requestDTO.getFundingTitle())
+                .fundingSummary(requestDTO.getFundingSummary())
+                .fundingDescription(requestDTO.getFundingDescription())
+                .category(requestDTO.getCategory())
+                .individualPrice(requestDTO.getIndividualPrice())
+                .totalPrice(requestDTO.getTotalPrice())
+                .startDate(requestDTO.getStartDate())
+                .endDate(requestDTO.getEndDate())
+                .build();
+        // 펀딩 상품 저장
+        fundingJpaRepository.save(funding);
+
+        // 펀딩 이미지 저장
+        for (String imageUrl : requestDTO.getImageUrls()) {
+            FundingImage fundingImage = FundingImage.builder()
+                    .funding(funding)
+                    .fundingImage(imageUrl)
+                    .build();
+            fundingImageJpaRepository.save(fundingImage);
+        }
+
+        return funding.getId();
+
+    }
 }

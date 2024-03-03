@@ -17,4 +17,6 @@ public interface FundingImageJpaRepository extends JpaRepository<FundingImage, I
             "JOIN FETCH f.user u " +
             "WHERE f.id = :fundingId ")
     List<FundingImage> findByFundingId(@Param("fundingId") Integer fundingId);
+
+    List<FundingImage> findAllByFundingId(int fundingId);
 }
