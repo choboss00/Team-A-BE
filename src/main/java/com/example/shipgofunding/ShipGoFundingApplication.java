@@ -12,13 +12,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 @SpringBootApplication
 public class ShipGoFundingApplication {
 
-    public static final String APPLICATION_LOCATIONS = "spring.config.location="
-            + "classpath:application.yml," + "classpath:aws.yml";
-
     public static void main(String[] args) {
-        new SpringApplicationBuilder(ShipGoFundingApplication.class)
-                .properties(APPLICATION_LOCATIONS)
-                .run(args);
+        SpringApplication.run(ShipGoFundingApplication.class, args);
     }
 
 }
