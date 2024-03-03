@@ -1,9 +1,11 @@
 package com.example.shipgofunding.funding.domain;
 
 import com.example.shipgofunding.config.utils.MetaData;
+import com.example.shipgofunding.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.SQLDelete;
 import org.hibernate.annotations.SQLRestriction;
 
@@ -22,6 +24,9 @@ public class Funding extends MetaData {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
+    @ManyToOne(fetch = FetchType.LAZY)
+    private User user;
+
     @Column(nullable = false)
     private String fundingTitle;
 
@@ -35,7 +40,10 @@ public class Funding extends MetaData {
     private String category;
 
     @Column(nullable = false)
-    private Integer price;
+    private Integer individualPrice;
+
+    @Column(nullable = false)
+    private Integer totalPrice;
 
     @Column(nullable = false)
     private LocalDateTime startDate;
@@ -46,6 +54,9 @@ public class Funding extends MetaData {
     @Enumerated(EnumType.STRING)
     @Column(nullable = false)
     private FundingEnum fundingEnum;
+
+    @Formula("(SELECT COUNT(*) FROM funding_hearts fh WHERE fh.funding_id = id)")
+    private int likesCount;
 
     public void updateStatus() {
         LocalDateTime now = LocalDateTime.now();
