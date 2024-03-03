@@ -20,10 +20,7 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -102,7 +99,7 @@ public class FundingController {
     content = @Content(mediaType = "application/json",
     schema = @Schema(implementation = FundingDetailResponseDTO.class)))
     @GetMapping("/fundings/{fundingId}")
-    public ResponseEntity<?> getFundingDetail(@RequestParam int fundingId) {
+    public ResponseEntity<?> getFundingDetail(@PathVariable int fundingId) {
         //TO-DO : 펀딩 상세 정보를 조회하는 로직 구현하기
         FundingDetailResponseDTO fundingDetail = fundingService.getFundingDetail(fundingId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingDetail));
