@@ -3,6 +3,7 @@ package com.example.shipgofunding.funding.domain;
 import com.example.shipgofunding.config.utils.MetaData;
 import com.example.shipgofunding.user.domain.User;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.Formula;
@@ -11,7 +12,6 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.time.Duration;
 import java.time.LocalDateTime;
-import java.util.Objects;
 
 @Getter
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
@@ -57,6 +57,21 @@ public class Funding extends MetaData {
 
     @Formula("(SELECT COUNT(*) FROM funding_hearts fh WHERE fh.funding_id = id)")
     private int likesCount;
+
+    @Builder
+    public Funding (User user, String fundingTitle, String fundingSummary, String fundingDescription, String category, Integer individualPrice, Integer totalPrice, LocalDateTime startDate, LocalDateTime endDate) {
+        this.user = user;
+        this.fundingTitle = fundingTitle;
+        this.fundingSummary = fundingSummary;
+        this.fundingDescription = fundingDescription;
+        this.category = category;
+        this.individualPrice = individualPrice;
+        this.totalPrice = totalPrice;
+        this.startDate = startDate;
+        this.endDate = endDate;
+
+        updateStatus();
+    }
 
     public void updateStatus() {
         LocalDateTime now = LocalDateTime.now();

@@ -3,6 +3,7 @@ package com.example.shipgofunding.funding.image.domain;
 import com.example.shipgofunding.config.utils.MetaData;
 import com.example.shipgofunding.funding.domain.Funding;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
@@ -25,5 +26,11 @@ public class FundingImage extends MetaData {
 
     @Column(nullable = false)
     private String fundingImage;
+
+    @Builder
+    public FundingImage(Funding funding, String fundingImage) {
+        this.funding = funding;
+        this.fundingImage = fundingImage;
+    }
 
 }
