@@ -32,16 +32,3 @@ springdoc:
     disable-swagger-default-url: true
     display-request-duration: true
     operations-sorter: alpha
-
-cloud:
-  aws:
-    s3:
-      bucket: ${aws-bucket}
-    credentials:
-      access-key: ${aws-access-key}
-      secret-key: ${aws-secret-key}
-    region:
-      static: ap-northeast-2
-      auto: false
-    stack:
-      auto: false
