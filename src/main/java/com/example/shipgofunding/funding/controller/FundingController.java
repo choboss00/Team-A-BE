@@ -1,5 +1,6 @@
 package com.example.shipgofunding.funding.controller;
 
+import com.example.shipgofunding.config.auth.PrincipalUserDetails;
 import com.example.shipgofunding.config.utils.ApiResponseBuilder;
 import com.example.shipgofunding.funding.banner.response.BannerResponse.BannerResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.FundingDetailResponseDTO;
@@ -20,7 +21,9 @@ import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
@@ -103,6 +106,16 @@ public class FundingController {
         //TO-DO : 펀딩 상세 정보를 조회하는 로직 구현하기
         FundingDetailResponseDTO fundingDetail = fundingService.getFundingDetail(fundingId);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingDetail));
+    }
+
+    @PostMapping("/fundings")
+    public ResponseEntity<?> createFunding(@AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        return null;
+    }
+
+    @PostMapping("/fundings/images")
+    public ResponseEntity<?> uploadImages(@RequestPart List<MultipartFile> images) {
+        return null;
     }
 
 }
