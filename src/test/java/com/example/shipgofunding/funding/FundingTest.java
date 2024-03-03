@@ -1,5 +1,6 @@
 package com.example.shipgofunding.funding;
 
+import com.example.shipgofunding.config.s3.S3UploadService;
 import com.example.shipgofunding.funding.controller.FundingController;
 import com.example.shipgofunding.funding.service.FundingService;
 import org.junit.jupiter.api.BeforeEach;
@@ -26,9 +27,12 @@ public class FundingTest {
     @Autowired
     private FundingService fundingService;
 
+    @Autowired
+    private S3UploadService s3UploadService;
+
     @BeforeEach
     public void init() {
-        mvc = MockMvcBuilders.standaloneSetup(new FundingController(fundingService)).build();
+        mvc = MockMvcBuilders.standaloneSetup(new FundingController(fundingService, s3UploadService)).build();
     }
 
     @Test
