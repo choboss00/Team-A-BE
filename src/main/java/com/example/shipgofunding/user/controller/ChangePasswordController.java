@@ -25,6 +25,7 @@ public class ChangePasswordController {
     @ApiResponse(responseCode = "200", description = "변경 성공")
     @PatchMapping("/change-password")
 
+    
     public ResponseEntity<?> updatePassword(@RequestBody @Valid UserRequest.PasswordDTO passwordDTO) {
         changepassword.changePassword(passwordDTO);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
