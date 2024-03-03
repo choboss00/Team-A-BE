@@ -2,7 +2,6 @@ package com.example.shipgofunding.config;
 
 import com.example.shipgofunding.config.jwt.JWTAuthenticationEntryPoint;
 import com.example.shipgofunding.config.jwt.JwtAuthenticationFilter;
-import com.example.shipgofunding.user.service.CustomOAuth2UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -25,7 +24,6 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class SecurityConfig   {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;	// JwtAuthenticationFilter 주입
     private final JWTAuthenticationEntryPoint jwtAuthenticationEntryPoint;	// JWTAuthenticationEntryPoint 주입
-    private final CustomOAuth2UserService customOAuth2UserService; // CustomOAuth2UserService 주입
 
     // 비밀번호 암호화
     @Bean
@@ -61,9 +59,6 @@ public class SecurityConfig   {
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/test/**").authenticated()
                         .anyRequest().permitAll()) // 모든 요청 허용
-                .oauth2Login(oauth2 -> oauth2
-                        .userInfoEndpoint(info -> info
-                                .userService(customOAuth2UserService)))
                 .headers((headers) -> headers
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(
                                 XFrameOptionsHeaderWriter.XFrameOptionsMode.SAMEORIGIN)))

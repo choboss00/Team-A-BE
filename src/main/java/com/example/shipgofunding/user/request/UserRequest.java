@@ -110,23 +110,7 @@ public class UserRequest {
         }
     }
 
-    @Getter
-    @Setter
-    public static class snsloginDTO {
-        @NotNull(message = "이메일은 필수 입력 값입니다.")
-        private String email;
 
-        @NotNull(message = "이름은 필수 입력 값입니다.")
-        private String name;
-
-        private RoleEnum role;
-
-        private String username;
-
-
-
-
-    }
 }
 
 

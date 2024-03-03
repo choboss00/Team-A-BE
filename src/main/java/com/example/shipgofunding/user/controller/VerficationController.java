@@ -57,6 +57,15 @@ public class VerficationController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
     }
 
+    @Operation(summary = "회원가입 이메일 인증", description = "이메일로 인증을 실시합니다.")
+    @ApiResponse(responseCode = "200", description = "인증 성공")
+    @PostMapping("/email-confirm")
+    public ResponseEntity<?> signupConfirmCode(@RequestBody @Valid VerficationRequestDTO verficationRequestDTO)  {
+        sendVerficationcode.VerficationEmail(verficationRequestDTO);
+        UserResponse.VerficationResponseDTO verficationResponseDTO=new UserResponse.VerficationResponseDTO(verficationRequestDTO.getEmail());
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(verficationResponseDTO.getEmail()));
+    }
+
 
 
 }
