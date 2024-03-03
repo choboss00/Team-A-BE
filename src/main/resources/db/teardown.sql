@@ -29,11 +29,11 @@ VALUES
     (NOW(), 2, 'beauty 1', 'Summary for beauty 1', 'Description for beauty 1', '뷰티', 2000, 20000, '2024-03-02 00:00:00', '2024-03-16 00:00:00', 'OPEN_SCHEDULED'),
     (NOW(), 2, 'beauty 2', 'Summary for beauty 2', 'Description for beauty 2', '뷰티', 3000, 30000, '2024-03-03 00:00:00', '2024-03-17 00:00:00', 'OPEN_SCHEDULED'),
     (NOW(), 2, 'beauty 3', 'Summary for beauty 3', 'Description for beauty 3', '뷰티', 4000, 40000, '2024-03-04 00:00:00', '2024-03-18 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'food 1', 'Summary for food 1', 'Description for food 1', '푸드', 5000, 50000, '2024-03-05 00:00:00', '2024-03-02 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'food 2', 'Summary for food 2', 'Description for food 2', '푸드', 2000, 20000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 3, 'book 1', 'Summary for book 1', 'Description for book 1', '도서', 3000, 30000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 3, 'goods 1', 'Summary for goods 1', 'Description for goods 1', '굿즈', 4000, 40000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 3, 'stuff 1', 'Summary for stuff 1', 'Description for stuff 1', '잡화', 5000, 50000, '2024-02-28 00:00:00', '2024-03-02 00:00:00', 'CLOSE_IMMINENT');
+    (NOW(), 2, 'food 1', 'Summary for food 1', 'Description for food 1', '푸드', 5000, 50000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'OPEN_SCHEDULED'),
+    (NOW(), 2, 'food 2', 'Summary for food 2', 'Description for food 2', '푸드', 2000, 20000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT'),
+    (NOW(), 3, 'book 1', 'Summary for book 1', 'Description for book 1', '도서', 3000, 30000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT'),
+    (NOW(), 3, 'goods 1', 'Summary for goods 1', 'Description for goods 1', '굿즈', 4000, 40000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT'),
+    (NOW(), 3, 'stuff 1', 'Summary for stuff 1', 'Description for stuff 1', '잡화', 5000, 50000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT');
 
 INSERT INTO participating_fundings (funding_id, user_id, created_at)
 VALUES
