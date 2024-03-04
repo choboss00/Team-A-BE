@@ -382,4 +382,53 @@ public class FundingService {
 
         fundingHeartJpaRepository.save(fundingHeart);
     }
+
+    public void cancelApplyFunding(int fundingId, PrincipalUserDetails userDetails) {
+        /**
+         * 신청한 펀딩을 취소하는 기능
+         * 1. user 인증
+         * 2. funding 상품 검증
+         * 3. 펀딩 신청 취소하기
+         * **/
+
+        // user 인증
+        User user = validateUser(userDetails);
+
+        // funding 상품 검증
+        Funding funding = fundingJpaRepository.findById(fundingId)
+                .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
+
+        // 펀딩 신청 취소하기 : 날짜에 맞춰서 삭제
+        LocalDateTime startDate = funding.getStartDate();
+
+        // 현재 시각과 startDate 비교
+        if ( LocalDateTime.now().isBefore(startDate) ) {
+            // 오픈 알림 신청 취소하기
+            notificationJpaRepository.deleteByFundingIdAndUserId(fundingId, user.getId());
+        }
+        else if ( LocalDateTime.now().isAfter(startDate) && LocalDateTime.now().isBefore(funding.getEndDate()) ) {
+            // 참여 신청 취소하기
+            participatingFundingJpaRepository.deleteByFundingIdAndUserId(fundingId, user.getId());
+        }
+    }
+
+    public void cancelLikesFunding(int fundingId, PrincipalUserDetails userDetails) {
+        /**
+         * 펀딩 상품 좋아요를 신청하는 기능
+         * 1. user 인증
+         * 2. funding 상품 검증
+         * 3. 펀딩 상품 좋아요 취소하기
+         * **/
+
+        // user 인증
+        User user = validateUser(userDetails);
+
+        // funding 상품 검증
+        Funding funding = fundingJpaRepository.findById(fundingId)
+                .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
+
+        // 펀딩 상품 좋아요 취소하기
+        fundingHeartJpaRepository.deleteByFundingIdAndUserId(fundingId, user.getId());
+
+    }
 }
