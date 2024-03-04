@@ -33,5 +33,11 @@ public class MyPageController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
     }
 
+    // TO-DO : 기획 부분이 미정인 API
+    @GetMapping("/my-page/histories")
+    public ResponseEntity<?> getHistories(@AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success("미정 API"));
+    }
+
 
 }
