@@ -280,6 +280,7 @@ public class FundingService {
 
     }
 
+    @Transactional
     public void deleteFunding(int fundingId, PrincipalUserDetails userDetails) {
         /**
          * 1. user 인증
@@ -310,6 +311,7 @@ public class FundingService {
 
     }
 
+    @Transactional
     public void applyFunding(int fundingId, PrincipalUserDetails userDetails) {
         /**
          * 1. user 인증
@@ -360,6 +362,7 @@ public class FundingService {
         }
     }
 
+    @Transactional
     public void likesFunding(int fundingId, PrincipalUserDetails userDetails) {
         /**
          * 1. user 인증
@@ -393,6 +396,7 @@ public class FundingService {
         fundingHeartJpaRepository.save(fundingHeart);
     }
 
+    @Transactional
     public void cancelApplyFunding(int fundingId, PrincipalUserDetails userDetails) {
         /**
          * 신청한 펀딩을 취소하는 기능
@@ -422,6 +426,7 @@ public class FundingService {
         }
     }
 
+    @Transactional
     public void cancelLikesFunding(int fundingId, PrincipalUserDetails userDetails) {
         /**
          * 펀딩 상품 좋아요를 신청하는 기능

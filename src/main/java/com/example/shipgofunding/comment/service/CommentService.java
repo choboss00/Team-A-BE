@@ -23,6 +23,7 @@ public class CommentService {
     private final CommentJpaRepository commentJpaRepository;
     private final FundingJpaRepository fundingJpaRepository;
 
+    @Transactional
     public void createComment(CommentRequest.CreateCommentRequestDTO requestDTO, PrincipalUserDetails userDetails) {
         /**
          * 댓글 기능 구현하기
