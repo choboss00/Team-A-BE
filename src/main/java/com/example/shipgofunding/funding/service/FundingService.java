@@ -104,14 +104,13 @@ public class FundingService {
         // TO-DO : 인기 펀딩 데이터를 조회하는 로직 구현하기 ( 인기순으로 정렬된 6개의 데이터를 뽑아내야 함 )
         List<PopularFundingMainPageResponseDTO> popularFundings = new ArrayList<>();
 
-        List<Integer> popularFundingId = fundingHeartJpaRepository.findPopularFundingHearts();
+        // 인기 펀딩 6개를 가져오기
+        List<Funding> fundings = fundingJpaRepository.findPopularFundings();
 
-
-        for ( Integer id : popularFundingId ) {
-            FundingImage fundingImage = findFirstByFundingId(id);
+        for ( Funding funding : fundings ) {
+            FundingImage fundingImage = findFirstByFundingId(funding.getId());
 
             popularFundings.add(new PopularFundingMainPageResponseDTO(fundingImage));
-
         }
 
         return popularFundings;
