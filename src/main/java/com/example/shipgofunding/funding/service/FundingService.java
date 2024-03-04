@@ -272,4 +272,34 @@ public class FundingService {
         }
 
     }
+
+    public void deleteFunding(int fundingId, PrincipalUserDetails userDetails) {
+        /**
+         * 1. user 인증
+         * 2. funding 상품 검증
+         * 3. funding 상품 삭제
+         * 4. funding 상품 이미지 삭제
+         * **/
+
+        // user 인증
+        User user = validateUser(userDetails);
+
+        // funding 상품 검증
+        Funding funding = fundingJpaRepository.findById(fundingId)
+                .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
+
+        // user와 funding의 user가 같은지 확인
+        if ( !funding.getUser().getId().equals(user.getId()) ) {
+            throw new Exception401("해당 펀딩 상품을 삭제할 권한이 없습니다.");
+        }
+
+        // funding 상품 삭제
+        fundingJpaRepository.delete(funding);
+
+        // funding 상품 이미지 삭제
+        List<FundingImage> fundingImages = fundingImageJpaRepository.findAllByFundingId(fundingId);
+
+        fundingImageJpaRepository.deleteAll(fundingImages);
+
+    }
 }

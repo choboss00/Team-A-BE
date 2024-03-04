@@ -152,4 +152,12 @@ public class FundingController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingId));
     }
 
+    @Operation(summary = "상품 삭제", description = "상품을 삭제합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 상품 삭제")
+    @DeleteMapping("/fundings/{fundingId}")
+    public ResponseEntity<?> deleteFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.deleteFunding(fundingId, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
+    }
+
 }
