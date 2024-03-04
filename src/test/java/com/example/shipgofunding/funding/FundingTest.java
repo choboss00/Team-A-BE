@@ -2,19 +2,27 @@ package com.example.shipgofunding.funding;
 
 import com.example.shipgofunding.config.s3.S3UploadService;
 import com.example.shipgofunding.funding.controller.FundingController;
+import com.example.shipgofunding.funding.request.FundingRequest;
 import com.example.shipgofunding.funding.service.FundingService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.test.context.support.WithUserDetails;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.jdbc.Sql;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 
 @SpringBootTest
@@ -323,8 +331,4 @@ public class FundingTest {
 
         resultActions.andExpect(jsonPath("$.status").value("success"));
     }
-    
-
-
-
 }

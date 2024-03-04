@@ -6,6 +6,7 @@ import com.example.shipgofunding.config.errors.exception.Exception401;
 import com.example.shipgofunding.config.s3.S3UploadService;
 import com.example.shipgofunding.config.utils.ApiResponseBuilder;
 import com.example.shipgofunding.funding.banner.response.BannerResponse.BannerResponseDTO;
+import com.example.shipgofunding.funding.request.FundingRequest.UpdateFundingRequestDTO;
 import com.example.shipgofunding.funding.request.FundingRequest.CreateFundingRequestDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.FundingDetailResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.FundingResponseDTO;
@@ -139,6 +140,56 @@ public class FundingController {
         } catch (IOException e) {
             throw new Exception400(null, "이미지 업로드에 실패했습니다.");
         }
+    }
+
+    @Operation(summary = "상품 수정", description = "상품을 수정합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 상품 수정",
+    content = @Content(mediaType = "application/json",
+    schema = @Schema(implementation = UpdateFundingRequestDTO.class)))
+    @PutMapping("/fundings/{fundingId}")
+    public ResponseEntity<?> updateFunding(@PathVariable int fundingId, @RequestBody @Valid UpdateFundingRequestDTO requestDTO, Errors errors, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.updateFunding(fundingId, requestDTO, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingId));
+    }
+
+    @Operation(summary = "상품 삭제", description = "상품을 삭제합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 상품 삭제")
+    @DeleteMapping("/fundings/{fundingId}")
+    public ResponseEntity<?> deleteFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.deleteFunding(fundingId, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
+    }
+
+    @Operation(summary = "펀딩 상품 신청하기", description = "펀딩 상품에 신청합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 펀딩 상품 신청하기")
+    @PostMapping("/fundings/{fundingId}/apply")
+    public ResponseEntity<?> applyFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.applyFunding(fundingId, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingId));
+    }
+
+    @Operation(summary = "펀딩 상품 신청 취소하기", description = "펀딩 상품에 신청을 취소합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 펀딩 상품 신청 취소하기")
+    @DeleteMapping("/fundings/{fundingId}/apply")
+    public ResponseEntity<?> cancelApplyFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.cancelApplyFunding(fundingId, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
+    }
+
+    @Operation(summary = "펀딩 상품 좋아요 버튼", description = "펀딩 상품에 좋아요를 누릅니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 펀딩 상품 좋아요 버튼이 눌림")
+    @PostMapping("/fundings/{fundingId}/likes")
+    public ResponseEntity<?> likesFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.likesFunding(fundingId, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingId));
+    }
+
+    @Operation(summary = "펀딩 상품 좋아요 취소하기", description = "펀딩 상품에 좋아요를 취소합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 펀딩 상품 좋아요 취소하기")
+    @DeleteMapping("/fundings/{fundingId}/likes")
+    public ResponseEntity<?> cancelLikesFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.cancelLikesFunding(fundingId, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
     }
 
 }

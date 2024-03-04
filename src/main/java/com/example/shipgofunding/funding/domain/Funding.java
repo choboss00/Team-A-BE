@@ -1,6 +1,7 @@
 package com.example.shipgofunding.funding.domain;
 
 import com.example.shipgofunding.config.utils.MetaData;
+import com.example.shipgofunding.funding.request.FundingRequest;
 import com.example.shipgofunding.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -95,4 +96,16 @@ public class Funding extends MetaData {
         }
     }
 
+    public void updateFunding(FundingRequest.UpdateFundingRequestDTO requestDTO) {
+        this.category = requestDTO.getCategory();
+        this.startDate = requestDTO.getStartDate();
+        this.endDate = requestDTO.getEndDate();
+        this.totalPrice = requestDTO.getTotalPrice();
+        this.individualPrice = requestDTO.getIndividualPrice();
+        this.fundingTitle = requestDTO.getFundingTitle();
+        this.fundingSummary = requestDTO.getFundingSummary();
+        this.fundingDescription = requestDTO.getFundingDescription();
+
+        updateStatus();
+    }
 }

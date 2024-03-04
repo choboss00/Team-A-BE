@@ -16,7 +16,6 @@ VALUES (NOW(), 'user1@example.com', 'hashed_password1', 'nickname1', 'USER'),
        (NOW(), 'user4@example.com', 'hashed_password4', 'nickname4', 'USER'),
        (NOW(), 'user5@example.com', 'hashed_password5', 'nickname5', 'USER'),
        (NOW(), 'user6@example.com', 'hashed_password6', 'nickname6', 'USER');
-;
 
 INSERT INTO fundings (created_at, user_id, funding_title, funding_summary, funding_description, category, individual_price, total_price, start_date, end_date, funding_enum)
 VALUES
