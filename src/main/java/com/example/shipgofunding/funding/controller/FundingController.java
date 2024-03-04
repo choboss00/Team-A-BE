@@ -5,6 +5,7 @@ import com.example.shipgofunding.config.errors.exception.Exception400;
 import com.example.shipgofunding.config.errors.exception.Exception401;
 import com.example.shipgofunding.config.s3.S3UploadService;
 import com.example.shipgofunding.config.utils.ApiResponseBuilder;
+import com.example.shipgofunding.funding.banner.request.BannerRequest.BannerCreateRequestDTO;
 import com.example.shipgofunding.funding.banner.response.BannerResponse.BannerResponseDTO;
 import com.example.shipgofunding.funding.request.FundingRequest.UpdateFundingRequestDTO;
 import com.example.shipgofunding.funding.request.FundingRequest.CreateFundingRequestDTO;
@@ -189,6 +190,12 @@ public class FundingController {
     @DeleteMapping("/fundings/{fundingId}/likes")
     public ResponseEntity<?> cancelLikesFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
         fundingService.cancelLikesFunding(fundingId, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
+    }
+
+    @PostMapping("/banners")
+    public ResponseEntity<?> createBanner(@RequestBody @Valid BannerCreateRequestDTO requestDTO, Errors errors, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.saveBanner(requestDTO, userDetails);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
     }
 
