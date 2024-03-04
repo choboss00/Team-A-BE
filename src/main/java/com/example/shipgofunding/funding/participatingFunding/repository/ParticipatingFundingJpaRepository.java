@@ -13,4 +13,6 @@ public interface ParticipatingFundingJpaRepository extends JpaRepository<Partici
     boolean existsByFundingIdAndUserId(int fundingId, Long id);
 
     void deleteByFundingIdAndUserId(int fundingId, Long id);
+
+    int countByUserId(Long id);
 }
