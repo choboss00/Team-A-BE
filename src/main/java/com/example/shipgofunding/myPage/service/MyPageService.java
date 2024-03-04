@@ -5,6 +5,7 @@ import com.example.shipgofunding.funding.fundingHeart.repository.FundingHeartJpa
 import com.example.shipgofunding.funding.notificationFunding.repository.NotificationJpaRepository;
 import com.example.shipgofunding.funding.participatingFunding.repository.ParticipatingFundingJpaRepository;
 import com.example.shipgofunding.myPage.request.MyPageRequest.MyPageUpdateRequestDTO;
+import com.example.shipgofunding.myPage.response.MyPageResponse.MyPageUpdateResponseDTO;
 import com.example.shipgofunding.myPage.response.MyPageResponse.MyPageFundingCountsResponseDTO;
 import com.example.shipgofunding.user.domain.User;
 import lombok.RequiredArgsConstructor;
@@ -38,8 +39,12 @@ public class MyPageService {
     }
 
     @Transactional
-    public void updateProfile(MyPageUpdateRequestDTO requestDTO, PrincipalUserDetails userDetails) {
+    public MyPageUpdateResponseDTO updateProfile(MyPageUpdateRequestDTO requestDTO, PrincipalUserDetails userDetails) {
         User user = userDetails.getUser();
         user.updateProfile(requestDTO);
+
+        return new MyPageUpdateResponseDTO(user.getImage(), user.getNickname());
     }
+
+
 }
