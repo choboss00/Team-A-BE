@@ -160,4 +160,12 @@ public class FundingController {
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
     }
 
+    @Operation(summary = "펀딩 상품 신청하기", description = "펀딩 상품에 신청합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 펀딩 상품 신청하기")
+    @PostMapping("/fundings/{fundingId}")
+    public ResponseEntity<?> applyFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.applyFunding(fundingId, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingId));
+    }
+
 }
