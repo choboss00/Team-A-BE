@@ -4,6 +4,7 @@ import com.example.shipgofunding.config.utils.MetaData;
 import com.example.shipgofunding.funding.domain.Funding;
 import com.example.shipgofunding.user.domain.User;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
@@ -25,4 +26,10 @@ public class FundingHeart extends MetaData {
 
     @ManyToOne(fetch = FetchType.LAZY)
     private User user;
+
+    @Builder
+    public FundingHeart(Funding funding, User user) {
+        this.funding = funding;
+        this.user = user;
+    }
 }

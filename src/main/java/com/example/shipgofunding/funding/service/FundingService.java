@@ -11,6 +11,7 @@ import com.example.shipgofunding.funding.banner.domain.Banner;
 import com.example.shipgofunding.funding.banner.repository.BannerJpaRepository;
 import com.example.shipgofunding.funding.banner.response.BannerResponse.BannerResponseDTO;
 import com.example.shipgofunding.funding.domain.Funding;
+import com.example.shipgofunding.funding.fundingHeart.domain.FundingHeart;
 import com.example.shipgofunding.funding.fundingHeart.repository.FundingHeartJpaRepository;
 import com.example.shipgofunding.funding.image.domain.FundingImage;
 import com.example.shipgofunding.funding.image.repository.FundingImageJpaRepository;
@@ -325,6 +326,14 @@ public class FundingService {
         Funding funding = fundingJpaRepository.findById(fundingId)
                 .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
 
+        // 이미 펀딩을 신청한 경우 예외처리
+        if ( participatingFundingJpaRepository.existsByFundingIdAndUserId(fundingId, user.getId()) ) {
+            throw new Exception400(null, "이미 펀딩을 신청한 상품입니다.");
+        }
+        else if ( notificationJpaRepository.existsByFundingIdAndUserId(fundingId, user.getId()) ) {
+            throw new Exception400(null, "이미 오픈 알림을 신청한 상품입니다.");
+        }
+
         // 펀딩에 참여하기
 
         // 만약 현재 시간과 비교했을 때, startDate 가 지나지 않았다면 오픈 알림 신청에 저장하기
@@ -344,5 +353,33 @@ public class FundingService {
                     .build();
             participatingFundingJpaRepository.save(participatingFunding);
         }
+    }
+
+    public void likesFunding(int fundingId, PrincipalUserDetails userDetails) {
+        /**
+         * 1. user 인증
+         * 2. funding 상품 검증
+         * 3. 펀딩 상품에 좋아요 누르기
+         * **/
+
+        // user 인증
+        User user = validateUser(userDetails);
+
+        // funding 상품 검증
+        Funding funding = fundingJpaRepository.findById(fundingId)
+                .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
+
+        // 이미 좋아요를 누른 경우 체크
+        if ( fundingHeartJpaRepository.existsByFundingIdAndUserId(fundingId, user.getId()) ) {
+            throw new Exception400(null, "이미 좋아요를 누른 상품입니다.");
+        }
+
+        // 펀딩 상품에 좋아요 누르기
+        FundingHeart fundingHeart = FundingHeart.builder()
+                .funding(funding)
+                .user(user)
+                .build();
+
+        fundingHeartJpaRepository.save(fundingHeart);
     }
 }

@@ -21,4 +21,5 @@ public interface FundingHeartJpaRepository extends JpaRepository<FundingHeart, I
 
     int countByFundingId(Integer id);
 
+    boolean existsByFundingIdAndUserId(int fundingId, Long id);
 }
