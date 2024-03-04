@@ -16,4 +16,9 @@ public interface FundingJpaRepository extends JpaRepository<Funding, Integer>, J
             "LIMIT 3", nativeQuery = true)
     List<Integer> findRandomFundings();
 
+    @Query("SELECT f FROM Funding f " +
+            "WHERE f.endDate >= CURRENT_TIMESTAMP AND f.startDate < CURRENT_TIMESTAMP " +
+            "ORDER BY f.likesCount DESC " +
+            "LIMIT 6")
+    List<Funding> findPopularFundings();
 }
