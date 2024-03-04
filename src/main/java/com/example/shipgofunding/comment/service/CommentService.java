@@ -42,6 +42,7 @@ public class CommentService {
         Comment comment = Comment.builder()
                 .funding(funding)
                 .user(userDetails.getUser())
+                .content(requestDTO.getComment())
                 .build();
 
         commentJpaRepository.save(comment);
