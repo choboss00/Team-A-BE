@@ -10,15 +10,7 @@ import org.springframework.data.jpa.repository.Query;
 import java.util.List;
 
 public interface FundingHeartJpaRepository extends JpaRepository<FundingHeart, Integer> {
+    boolean existsByFundingIdAndUserId(int fundingId, Long id);
 
-
-    @Query("SELECT f.funding.id " +
-            "FROM FundingHeart f " +
-            "GROUP BY f.funding.id " +
-            "ORDER BY COUNT(f.funding.id) DESC " +
-            "LIMIT 6")
-    List<Integer> findPopularFundingHearts();
-
-    int countByFundingId(Integer id);
-
+    void deleteByFundingIdAndUserId(int fundingId, Long id);
 }
