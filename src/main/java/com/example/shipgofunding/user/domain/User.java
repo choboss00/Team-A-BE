@@ -1,6 +1,7 @@
 package com.example.shipgofunding.user.domain;
 
 import com.example.shipgofunding.config.utils.MetaData;
+import com.example.shipgofunding.myPage.request.MyPageRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -49,4 +50,8 @@ public class User extends MetaData {
         this.password = newPassword;
     }
 
+    public void updateProfile(MyPageRequest.MyPageUpdateRequestDTO requestDTO) {
+        this.image = requestDTO.getImageUrl();
+        this.nickname = requestDTO.getNickname();
+    }
 }
