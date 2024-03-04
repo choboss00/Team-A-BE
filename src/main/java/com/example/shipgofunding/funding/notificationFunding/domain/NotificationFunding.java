@@ -1,4 +1,4 @@
-package com.example.shipgofunding.funding.participatingFunding.domain;
+package com.example.shipgofunding.funding.notificationFunding.domain;
 
 import com.example.shipgofunding.config.utils.MetaData;
 import com.example.shipgofunding.funding.domain.Funding;
@@ -13,11 +13,10 @@ import org.hibernate.annotations.SQLRestriction;
 @Getter
 @NoArgsConstructor(access = lombok.AccessLevel.PROTECTED)
 @SQLRestriction("deleted_at IS NULL")
-@SQLDelete(sql = "UPDATE participating_fundings SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
+@SQLDelete(sql = "UPDATE notification_fundings SET deleted_at = CURRENT_TIMESTAMP, is_deleted = TRUE where id = ?")
 @Entity
-@Table(name = "participating_fundings")
-public class ParticipatingFunding extends MetaData {
-
+@Table(name = "notification_fundings")
+public class NotificationFunding extends MetaData {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
@@ -29,9 +28,8 @@ public class ParticipatingFunding extends MetaData {
     private User user;
 
     @Builder
-    public ParticipatingFunding(Funding funding, User user) {
+    public NotificationFunding(Funding funding, User user) {
         this.funding = funding;
         this.user = user;
     }
-
 }

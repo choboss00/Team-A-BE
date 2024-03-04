@@ -15,6 +15,9 @@ import com.example.shipgofunding.funding.fundingHeart.repository.FundingHeartJpa
 import com.example.shipgofunding.funding.image.domain.FundingImage;
 import com.example.shipgofunding.funding.image.repository.FundingImageJpaRepository;
 import com.example.shipgofunding.funding.image.response.FundingImageResponse.FundingImageResponseDTO;
+import com.example.shipgofunding.funding.notificationFunding.domain.NotificationFunding;
+import com.example.shipgofunding.funding.notificationFunding.repository.NotificationJpaRepository;
+import com.example.shipgofunding.funding.participatingFunding.domain.ParticipatingFunding;
 import com.example.shipgofunding.funding.participatingFunding.repository.ParticipatingFundingJpaRepository;
 import com.example.shipgofunding.funding.repository.FundingJpaRepository;
 import com.example.shipgofunding.funding.request.FundingRequest;
@@ -35,6 +38,7 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -51,9 +55,10 @@ public class FundingService {
     private ParticipatingFundingJpaRepository participatingFundingJpaRepository;
     private CommentJpaRepository commentJpaRepository;
     private UserRepository userRepository;
+    private NotificationJpaRepository notificationJpaRepository;
 
     @Autowired
-    public FundingService(BannerJpaRepository bannerJpaRepository, FundingJpaRepository fundingJpaRepository, FundingImageJpaRepository fundingImageJpaRepository, FundingHeartJpaRepository fundingHeartJpaRepository, ParticipatingFundingJpaRepository participatingFundingJpaRepository, CommentJpaRepository commentJpaRepository, UserRepository userRepository) {
+    public FundingService(BannerJpaRepository bannerJpaRepository, FundingJpaRepository fundingJpaRepository, FundingImageJpaRepository fundingImageJpaRepository, FundingHeartJpaRepository fundingHeartJpaRepository, ParticipatingFundingJpaRepository participatingFundingJpaRepository, CommentJpaRepository commentJpaRepository, UserRepository userRepository, NotificationJpaRepository notificationJpaRepository) {
         this.bannerJpaRepository = bannerJpaRepository;
         this.fundingJpaRepository = fundingJpaRepository;
         this.fundingImageJpaRepository = fundingImageJpaRepository;
@@ -61,6 +66,7 @@ public class FundingService {
         this.participatingFundingJpaRepository = participatingFundingJpaRepository;
         this.commentJpaRepository = commentJpaRepository;
         this.userRepository = userRepository;
+        this.notificationJpaRepository = notificationJpaRepository;
     }
 
     public List<BannerResponseDTO> getMainBanners() {
@@ -301,5 +307,42 @@ public class FundingService {
 
         fundingImageJpaRepository.deleteAll(fundingImages);
 
+    }
+
+    public void applyFunding(int fundingId, PrincipalUserDetails userDetails) {
+        /**
+         * 1. user 인증
+         * 2. funding 상품 검증
+         * 3. 펀딩에 참여하기
+         * - 만약 현재 시간과 비교했을 때, startDate 가 지나지 않았다면 오픈 알림 신청에 저장하기
+         * - 만약 현재 시간과 비교했을 때, startDate 가 지났고, endDate 사이일경우 참여 신청에 저장하기
+         * **/
+
+        // user 인증
+        User user = validateUser(userDetails);
+
+        // funding 상품 검증
+        Funding funding = fundingJpaRepository.findById(fundingId)
+                .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
+
+        // 펀딩에 참여하기
+
+        // 만약 현재 시간과 비교했을 때, startDate 가 지나지 않았다면 오픈 알림 신청에 저장하기
+        LocalDateTime startDate = funding.getStartDate();
+
+        if ( LocalDateTime.now().isBefore(startDate) ) {
+            NotificationFunding notificationFunding = NotificationFunding.builder()
+                    .funding(funding)
+                    .user(user)
+                    .build();
+            notificationJpaRepository.save(notificationFunding);
+        }
+        else if ( LocalDateTime.now().isAfter(startDate) && LocalDateTime.now().isBefore(funding.getEndDate()) ) {
+            ParticipatingFunding participatingFunding = ParticipatingFunding.builder()
+                    .funding(funding)
+                    .user(user)
+                    .build();
+            participatingFundingJpaRepository.save(participatingFunding);
+        }
     }
 }
