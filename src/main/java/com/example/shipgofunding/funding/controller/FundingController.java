@@ -162,10 +162,34 @@ public class FundingController {
 
     @Operation(summary = "펀딩 상품 신청하기", description = "펀딩 상품에 신청합니다.")
     @ApiResponse(responseCode = "200", description = "성공적으로 펀딩 상품 신청하기")
-    @PostMapping("/fundings/{fundingId}")
+    @PostMapping("/fundings/{fundingId}/apply")
     public ResponseEntity<?> applyFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
         fundingService.applyFunding(fundingId, userDetails);
         return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingId));
+    }
+
+    @Operation(summary = "펀딩 상품 신청 취소하기", description = "펀딩 상품에 신청을 취소합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 펀딩 상품 신청 취소하기")
+    @DeleteMapping("/fundings/{fundingId}/apply")
+    public ResponseEntity<?> cancelApplyFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.cancelApplyFunding(fundingId, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
+    }
+
+    @Operation(summary = "펀딩 상품 좋아요 버튼", description = "펀딩 상품에 좋아요를 누릅니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 펀딩 상품 좋아요 버튼이 눌림")
+    @PostMapping("/fundings/{fundingId}/likes")
+    public ResponseEntity<?> likesFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.likesFunding(fundingId, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.success(fundingId));
+    }
+
+    @Operation(summary = "펀딩 상품 좋아요 취소하기", description = "펀딩 상품에 좋아요를 취소합니다.")
+    @ApiResponse(responseCode = "200", description = "성공적으로 펀딩 상품 좋아요 취소하기")
+    @DeleteMapping("/fundings/{fundingId}/likes")
+    public ResponseEntity<?> cancelLikesFunding(@PathVariable int fundingId, @AuthenticationPrincipal PrincipalUserDetails userDetails) {
+        fundingService.cancelLikesFunding(fundingId, userDetails);
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
     }
 
 }

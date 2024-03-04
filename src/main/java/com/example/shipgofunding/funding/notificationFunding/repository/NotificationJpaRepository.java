@@ -7,4 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface NotificationJpaRepository extends JpaRepository<NotificationFunding, Integer> {
 
+    boolean existsByFundingIdAndUserId(int fundingId, Long id);
+
+    void deleteByFundingIdAndUserId(int fundingId, Long id);
 }
