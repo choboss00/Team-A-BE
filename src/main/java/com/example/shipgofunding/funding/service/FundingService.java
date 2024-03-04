@@ -326,6 +326,11 @@ public class FundingService {
         Funding funding = fundingJpaRepository.findById(fundingId)
                 .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
 
+        // 자기자신이 작성한 글을 신청하는 경우 예외처리
+        if ( funding.getUser().getId().equals(user.getId()) ) {
+            throw new Exception400(null, "자신의 펀딩 상품에는 신청할 수 없습니다.");
+        }
+
         // 이미 펀딩을 신청한 경우 예외처리
         if ( participatingFundingJpaRepository.existsByFundingIdAndUserId(fundingId, user.getId()) ) {
             throw new Exception400(null, "이미 펀딩을 신청한 상품입니다.");
@@ -368,6 +373,11 @@ public class FundingService {
         // funding 상품 검증
         Funding funding = fundingJpaRepository.findById(fundingId)
                 .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
+
+        // 자기 자신이 좋아요를 누르는 경우 예외처리
+        if ( funding.getUser().getId().equals(user.getId()) ) {
+            throw new Exception400(null, "자신의 펀딩 상품에는 좋아요를 누를 수 없습니다.");
+        }
 
         // 이미 좋아요를 누른 경우 체크
         if ( fundingHeartJpaRepository.existsByFundingIdAndUserId(fundingId, user.getId()) ) {
