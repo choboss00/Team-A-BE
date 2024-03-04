@@ -5,6 +5,7 @@ import com.example.shipgofunding.comment.repository.CommentJpaRepository;
 import com.example.shipgofunding.comment.response.CommentResponse.CommentResponseDTO;
 import com.example.shipgofunding.config.auth.PrincipalUserDetails;
 import com.example.shipgofunding.config.errors.exception.Exception400;
+import com.example.shipgofunding.config.errors.exception.Exception401;
 import com.example.shipgofunding.config.errors.exception.Exception404;
 import com.example.shipgofunding.funding.banner.domain.Banner;
 import com.example.shipgofunding.funding.banner.repository.BannerJpaRepository;
@@ -16,6 +17,7 @@ import com.example.shipgofunding.funding.image.repository.FundingImageJpaReposit
 import com.example.shipgofunding.funding.image.response.FundingImageResponse.FundingImageResponseDTO;
 import com.example.shipgofunding.funding.participatingFunding.repository.ParticipatingFundingJpaRepository;
 import com.example.shipgofunding.funding.repository.FundingJpaRepository;
+import com.example.shipgofunding.funding.request.FundingRequest;
 import com.example.shipgofunding.funding.request.FundingRequest.CreateFundingRequestDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.FundingDetailResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.FundingResponseDTO;
@@ -228,6 +230,46 @@ public class FundingService {
         }
 
         return funding.getId();
+
+    }
+
+    @Transactional
+    public void updateFunding(int fundingId, FundingRequest.UpdateFundingRequestDTO requestDTO, PrincipalUserDetails userDetails) {
+        /**
+         * 펀딩 상세 페이지 수정하는 로직 작성하기
+         * 1. user 검증
+         * 2. funding 상품 검증
+         * 3. funding 상품 수정하기
+         * 4. funding 이미지 수정하기
+         * */
+
+        // user 검증
+        User user = validateUser(userDetails);
+
+        // funding 상품 검증
+        Funding funding = fundingJpaRepository.findById(fundingId)
+                .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
+
+        // user와 funding의 user가 같은지 확인
+        if ( !funding.getUser().getId().equals(user.getId()) ) {
+            throw new Exception401("해당 펀딩 상품을 수정할 권한이 없습니다.");
+        }
+
+        // funding 상품 수정하기
+        funding.updateFunding(requestDTO);
+
+        // funding 이미지 수정하기
+        List<FundingImage> fundingImages = fundingImageJpaRepository.findAllByFundingId(fundingId);
+
+        fundingImageJpaRepository.deleteAll(fundingImages);
+
+        for (String imageUrl : requestDTO.getImageUrls()) {
+            FundingImage fundingImage = FundingImage.builder()
+                    .funding(funding)
+                    .fundingImage(imageUrl)
+                    .build();
+            fundingImageJpaRepository.save(fundingImage);
+        }
 
     }
 }
