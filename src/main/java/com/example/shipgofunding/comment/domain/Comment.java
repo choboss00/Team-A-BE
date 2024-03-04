@@ -4,6 +4,7 @@ import com.example.shipgofunding.config.utils.MetaData;
 import com.example.shipgofunding.funding.domain.Funding;
 import com.example.shipgofunding.user.domain.User;
 import jakarta.persistence.*;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.hibernate.annotations.SQLDelete;
@@ -29,4 +30,11 @@ public class Comment extends MetaData {
 
     @Column(nullable = false)
     private String content;
+
+    @Builder
+    public Comment(User user, Funding funding, String content) {
+        this.user = user;
+        this.funding = funding;
+        this.content = content;
+    }
 }
