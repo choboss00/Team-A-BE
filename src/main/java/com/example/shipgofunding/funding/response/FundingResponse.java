@@ -106,6 +106,7 @@ public class FundingResponse {
         private int fundingId;
         private String category;
         private FundingEnum state;
+        private String fundingStateDescription;
         private String fundingTitle;
         private String fundingSummary;
         private double fundingPercent;
@@ -118,6 +119,7 @@ public class FundingResponse {
             this.fundingId = funding.getId();
             this.category = funding.getCategory();
             this.state = funding.getFundingEnum();
+            this.fundingStateDescription = funding.getFundingStatusDescription();
             this.fundingTitle = funding.getFundingTitle();
             this.fundingSummary = funding.getFundingSummary();
             this.fundingPercent = calculateFundingPercent(funding);
