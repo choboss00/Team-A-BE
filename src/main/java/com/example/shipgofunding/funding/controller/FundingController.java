@@ -45,6 +45,12 @@ public class FundingController {
     private final FundingService fundingService;
     private final S3UploadService s3UploadService;
 
+    @GetMapping("/fundings/update-status")
+    public ResponseEntity<?> updateFundingStatus() {
+        fundingService.updateFundingStatus();
+        return ResponseEntity.status(HttpStatus.OK).body(ApiResponseBuilder.successWithNoContent());
+    }
+
     @Operation(summary = "메인 배너 조회", description = "메인 페이지에 표시될 배너 데이터를 조회합니다.")
     @ApiResponse(responseCode = "200", description = "성공적으로 배너 데이터 조회",
             content = @Content(mediaType = "application/json",
