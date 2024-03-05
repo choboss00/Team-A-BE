@@ -54,4 +54,5 @@ public class User extends MetaData {
         this.image = requestDTO.getImageUrl();
         this.nickname = requestDTO.getNickname();
     }
+
 }

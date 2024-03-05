@@ -1,15 +1,19 @@
 package com.example.shipgofunding.user.request;
 
 
-import jakarta.validation.constraints.*;
-
+import com.example.shipgofunding.user.domain.RoleEnum;
+import com.example.shipgofunding.user.domain.User;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Pattern;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import com.example.shipgofunding.user.domain.RoleEnum;
-import com.example.shipgofunding.user.domain.User;
+import org.h2.engine.Role;
 import org.springframework.stereotype.Component;
 
+import java.lang.reflect.Member;
+import java.util.Map;
 
 
 public class UserRequest {
@@ -39,6 +43,7 @@ public class UserRequest {
         }
 
     }
+
     @NoArgsConstructor
     @Getter
     @Setter
@@ -65,20 +70,21 @@ public class UserRequest {
             this.email = email;
         }
     }
+
     @NoArgsConstructor
     @Getter
     @Setter
-    public static class VerficationRequestDTO{
-        @NotNull(message =  "이메일은 필수 입력 값입니다.")
+    public static class VerficationRequestDTO {
+        @NotNull(message = "이메일은 필수 입력 값입니다.")
         private String email;
 
         @NotNull(message = "인증코드는 필수 입력 값입니다.")
         @Pattern(regexp = "^(?=.*[A-Za-z])(?=.*\\d)[A-Za-z\\d]{1,6}$", message = "Password must be a combination of letters and numbers, and should be between 1 and 6 characters long.")
         private String usercode;
 
-        public VerficationRequestDTO (String email, String usercode){
-            this.email=email;
-            this.usercode=usercode;
+        public VerficationRequestDTO(String email, String usercode) {
+            this.email = email;
+            this.usercode = usercode;
         }
     }
 
@@ -86,7 +92,7 @@ public class UserRequest {
     @Getter
     @Setter
     public static class PasswordDTO {
-        @NotNull(message =  "이메일은 필수 입력 값입니다.")
+        @NotNull(message = "이메일은 필수 입력 값입니다.")
         private String email;
 
         @NotNull(message = "비밀번호는 필수 입력 값 입니다.")
@@ -100,10 +106,13 @@ public class UserRequest {
         public PasswordDTO(String password, String passwordcheck, String email) {
             this.password = password;
             this.passwordcheck = passwordcheck;
-            this.email=email;
+            this.email = email;
         }
     }
 
 
-
 }
+
+
+
+
