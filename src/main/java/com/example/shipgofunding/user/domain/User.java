@@ -1,6 +1,7 @@
 package com.example.shipgofunding.user.domain;
 
 import com.example.shipgofunding.config.utils.MetaData;
+import com.example.shipgofunding.myPage.request.MyPageRequest;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.SQLDelete;
@@ -35,11 +36,6 @@ public class User extends MetaData {
     @Column(name="role")
     private RoleEnum role;
 
-    //sns 인증 로그인 사용
-    @Column(name="username")
-    private String username;
-
-
     @Builder
     public User(String email, String password, String nickname, RoleEnum role) {
         this.role = role;
@@ -54,6 +50,9 @@ public class User extends MetaData {
         this.password = newPassword;
     }
 
-
+    public void updateProfile(MyPageRequest.MyPageUpdateRequestDTO requestDTO) {
+        this.image = requestDTO.getImageUrl();
+        this.nickname = requestDTO.getNickname();
+    }
 
 }

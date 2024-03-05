@@ -1,6 +1,7 @@
 package com.example.shipgofunding.funding.domain;
 
 import com.example.shipgofunding.config.utils.MetaData;
+import com.example.shipgofunding.funding.request.FundingRequest;
 import com.example.shipgofunding.user.domain.User;
 import jakarta.persistence.*;
 import lombok.Builder;
@@ -55,6 +56,9 @@ public class Funding extends MetaData {
     @Column(nullable = false)
     private FundingEnum fundingEnum;
 
+    @Column(nullable = false)
+    private String fundingStatusDescription;
+
     @Formula("(SELECT COUNT(*) FROM funding_hearts fh WHERE fh.funding_id = id)")
     private int likesCount;
 
@@ -93,6 +97,20 @@ public class Funding extends MetaData {
                 this.fundingEnum = FundingEnum.CLOSE_IMMINENT;
             }
         }
+
+        this.fundingStatusDescription = this.fundingEnum.getDescription();
     }
 
+    public void updateFunding(FundingRequest.UpdateFundingRequestDTO requestDTO) {
+        this.category = requestDTO.getCategory();
+        this.startDate = requestDTO.getStartDate();
+        this.endDate = requestDTO.getEndDate();
+        this.totalPrice = requestDTO.getTotalPrice();
+        this.individualPrice = requestDTO.getIndividualPrice();
+        this.fundingTitle = requestDTO.getFundingTitle();
+        this.fundingSummary = requestDTO.getFundingSummary();
+        this.fundingDescription = requestDTO.getFundingDescription();
+
+        updateStatus();
+    }
 }
