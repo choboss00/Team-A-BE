@@ -445,4 +445,12 @@ public class FundingService {
         fundingHeartJpaRepository.deleteByFundingIdAndUserId(fundingId, user.getId());
 
     }
+
+    public void updateFundingStatus() {
+        List<Funding> fundings = fundingJpaRepository.findAll();
+
+        for ( Funding funding : fundings ) {
+            funding.updateStatus();
+        }
+    }
 }

@@ -79,9 +79,14 @@ public class Funding extends MetaData {
 
     public void updateStatus() {
         LocalDateTime now = LocalDateTime.now();
+        Duration duration = Duration.between(now, endDate);
+        long hours = duration.toHours();
 
         if ( now.isBefore(startDate) ) {
             this.fundingEnum = FundingEnum.OPEN_SCHEDULED;
+        }
+        else if (hours >= 0 && hours <= 72) { // endDate가 현재 시간으로부터 72시간 이내인 경우
+            this.fundingEnum = FundingEnum.CLOSE_IMMINENT;
         }
         else if ( now.isAfter(startDate) && now.isBefore(endDate) ) {
             this.fundingEnum = FundingEnum.IN_PROGRESS;
@@ -89,17 +94,10 @@ public class Funding extends MetaData {
         else if ( now.isAfter(endDate) ) {
             this.fundingEnum = FundingEnum.FUNDING_CLOSED;
         }
-        else {
-            Duration duration = Duration.between(now, endDate);
-            long hours = duration.toHours();
-
-            if (hours >= 0 && hours <= 72) { // endDate가 현재 시간으로부터 72시간 이내인 경우
-                this.fundingEnum = FundingEnum.CLOSE_IMMINENT;
-            }
-        }
 
         this.fundingStatusDescription = this.fundingEnum.getDescription();
     }
+
 
     public void updateFunding(FundingRequest.UpdateFundingRequestDTO requestDTO) {
         this.category = requestDTO.getCategory();
