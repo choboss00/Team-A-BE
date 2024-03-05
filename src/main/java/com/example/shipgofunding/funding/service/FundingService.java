@@ -448,7 +448,6 @@ public class FundingService {
 
     }
 
-<<<<<<< HEAD
     public void saveBanner(BannerCreateRequestDTO requestDTO, PrincipalUserDetails userDetails) {
         /**
          * 1. user 인증
@@ -477,9 +476,8 @@ public class FundingService {
         bannerJpaRepository.save(banner);
 
         }
-    }
 
-=======
+
     public void updateFundingStatus() {
         List<Funding> fundings = fundingJpaRepository.findAll();
 
@@ -488,4 +486,3 @@ public class FundingService {
         }
     }
 }
->>>>>>> hotfix/funding-domain-hotfix
