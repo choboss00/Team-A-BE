@@ -9,6 +9,7 @@ import com.example.shipgofunding.config.errors.exception.Exception401;
 import com.example.shipgofunding.config.errors.exception.Exception404;
 import com.example.shipgofunding.funding.banner.domain.Banner;
 import com.example.shipgofunding.funding.banner.repository.BannerJpaRepository;
+import com.example.shipgofunding.funding.banner.request.BannerRequest.BannerCreateRequestDTO;
 import com.example.shipgofunding.funding.banner.response.BannerResponse.BannerResponseDTO;
 import com.example.shipgofunding.funding.domain.Funding;
 import com.example.shipgofunding.funding.fundingHeart.domain.FundingHeart;
@@ -27,6 +28,7 @@ import com.example.shipgofunding.funding.response.FundingResponse.FundingDetailR
 import com.example.shipgofunding.funding.response.FundingResponse.FundingResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.PopularFundingMainPageResponseDTO;
 import com.example.shipgofunding.funding.response.FundingResponse.UrgentFundingResponseDTO;
+import com.example.shipgofunding.user.domain.RoleEnum;
 import com.example.shipgofunding.user.domain.User;
 import com.example.shipgofunding.user.repository.UserRepository;
 import lombok.RequiredArgsConstructor;
@@ -445,4 +447,34 @@ public class FundingService {
         fundingHeartJpaRepository.deleteByFundingIdAndUserId(fundingId, user.getId());
 
     }
-}
+
+    public void saveBanner(BannerCreateRequestDTO requestDTO, PrincipalUserDetails userDetails) {
+        /**
+         * 1. user 인증
+         * 2. banner 저장
+         * **/
+
+        // user 인증
+        User user = userRepository.findByEmail(userDetails.getUsername())
+                .orElseThrow(() -> new Exception404("유저 정보를 찾을 수 없습니다."));
+
+        // 실제 서비스에서는 예외 처리를 해줘야 함
+//        if ( user.getRole() != RoleEnum.ADMIN) {
+//            throw new Exception401("관리자만 배너를 등록할 수 있습니다.");
+//        }
+
+        // 펀딩 상품 가져오기
+        Funding funding = fundingJpaRepository.findById(requestDTO.getFundingId())
+                .orElseThrow(() -> new Exception404("해당 펀딩 상품이 존재하지 않습니다."));
+
+        // banner 저장
+        Banner banner = Banner.builder()
+                .image(requestDTO.getImageUrl())
+                .funding(funding)
+                .build();
+
+        bannerJpaRepository.save(banner);
+
+        }
+    }
+
