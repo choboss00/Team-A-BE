@@ -17,22 +17,22 @@ VALUES (NOW(), 'user1@example.com', 'hashed_password1', 'nickname1', 'USER'),
        (NOW(), 'user5@example.com', 'hashed_password5', 'nickname5', 'USER'),
        (NOW(), 'user6@example.com', 'hashed_password6', 'nickname6', 'USER');
 
-INSERT INTO fundings (created_at, user_id, funding_title, funding_summary, funding_description, category, individual_price, total_price, start_date, end_date, funding_enum)
+INSERT INTO fundings (created_at, user_id, funding_title, funding_summary, funding_description, category, individual_price, total_price, start_date, end_date, funding_enum, funding_status_description)
 VALUES
-    (NOW(), 1, 'Product 1', 'Summary for product 1', 'Description for product 1', '테크가전', 1000, 10000, '2024-03-01 00:00:00', '2024-03-15 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 1, 'Product 2', 'Summary for product 2', 'Description for product 2', '테크가전', 2000, 20000, '2024-03-02 00:00:00', '2024-03-16 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 1, 'Product 3', 'Summary for product 3', 'Description for product 3', '테크가전', 3000, 30000, '2024-03-03 00:00:00', '2024-03-17 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 1, 'fashion 1', 'Summary for fashion 1', 'Description for fashion 1', '패션', 4000, 40000, '2024-03-04 00:00:00', '2024-03-18 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 1, 'fashion 2', 'Summary for fashion 2', 'Description for fashion 2', '패션', 5000, 50000, '2024-03-05 00:00:00', '2024-03-19 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'fashion 3', 'Summary for fashion 3', 'Description for fashion 3', '패션', 1000, 10000, '2024-03-01 00:00:00', '2024-03-15 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'beauty 1', 'Summary for beauty 1', 'Description for beauty 1', '뷰티', 2000, 20000, '2024-03-02 00:00:00', '2024-03-16 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'beauty 2', 'Summary for beauty 2', 'Description for beauty 2', '뷰티', 3000, 30000, '2024-03-03 00:00:00', '2024-03-17 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'beauty 3', 'Summary for beauty 3', 'Description for beauty 3', '뷰티', 4000, 40000, '2024-03-04 00:00:00', '2024-03-18 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'food 1', 'Summary for food 1', 'Description for food 1', '푸드', 5000, 50000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'OPEN_SCHEDULED'),
-    (NOW(), 2, 'food 2', 'Summary for food 2', 'Description for food 2', '푸드', 2000, 20000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 3, 'book 1', 'Summary for book 1', 'Description for book 1', '도서', 3000, 30000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 3, 'goods 1', 'Summary for goods 1', 'Description for goods 1', '굿즈', 4000, 40000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT'),
-    (NOW(), 3, 'stuff 1', 'Summary for stuff 1', 'Description for stuff 1', '잡화', 5000, 50000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT');
+    (NOW(), 1, 'Product 1', 'Summary for product 1', 'Description for product 1', '테크가전', 1000, 10000, '2024-03-01 00:00:00', '2024-03-15 00:00:00', 'OPEN_SCHEDULED', '오픈 예정'),
+    (NOW(), 1, 'Product 2', 'Summary for product 2', 'Description for product 2', '테크가전', 2000, 20000, '2024-03-02 00:00:00', '2024-03-16 00:00:00', 'OPEN_SCHEDULED', '오픈 예정'),
+    (NOW(), 1, 'Product 3', 'Summary for product 3', 'Description for product 3', '테크가전', 3000, 30000, '2024-03-03 00:00:00', '2024-03-17 00:00:00', 'OPEN_SCHEDULED', '오픈 예정'),
+    (NOW(), 1, 'fashion 1', 'Summary for fashion 1', 'Description for fashion 1', '패션', 4000, 40000, '2024-03-04 00:00:00', '2024-03-18 00:00:00', 'OPEN_SCHEDULED', '오픈 예정'),
+    (NOW(), 1, 'fashion 2', 'Summary for fashion 2', 'Description for fashion 2', '패션', 5000, 50000, '2024-03-05 00:00:00', '2024-03-19 00:00:00', 'OPEN_SCHEDULED', '오픈 예정'),
+    (NOW(), 2, 'fashion 3', 'Summary for fashion 3', 'Description for fashion 3', '패션', 1000, 10000, '2024-03-01 00:00:00', '2024-03-15 00:00:00', 'OPEN_SCHEDULED', '오픈 예정'),
+    (NOW(), 2, 'beauty 1', 'Summary for beauty 1', 'Description for beauty 1', '뷰티', 2000, 20000, '2024-03-02 00:00:00', '2024-03-16 00:00:00', 'OPEN_SCHEDULED', '오픈 예정'),
+    (NOW(), 2, 'beauty 2', 'Summary for beauty 2', 'Description for beauty 2', '뷰티', 3000, 30000, '2024-03-03 00:00:00', '2024-03-17 00:00:00', 'OPEN_SCHEDULED', '오픈 예정'),
+    (NOW(), 2, 'beauty 3', 'Summary for beauty 3', 'Description for beauty 3', '뷰티', 4000, 40000, '2024-03-04 00:00:00', '2024-03-18 00:00:00', 'OPEN_SCHEDULED', '오픈 예정'),
+    (NOW(), 2, 'food 1', 'Summary for food 1', 'Description for food 1', '푸드', 5000, 50000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'OPEN_SCHEDULED', '오픈 예정'),
+    (NOW(), 2, 'food 2', 'Summary for food 2', 'Description for food 2', '푸드', 2000, 20000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT', '마감 임박'),
+    (NOW(), 3, 'book 1', 'Summary for book 1', 'Description for book 1', '도서', 3000, 30000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT', '마감 임박'),
+    (NOW(), 3, 'goods 1', 'Summary for goods 1', 'Description for goods 1', '굿즈', 4000, 40000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT', '마감 임박'),
+    (NOW(), 3, 'stuff 1', 'Summary for stuff 1', 'Description for stuff 1', '잡화', 5000, 50000, '2024-03-03 00:00:00', '2024-03-05 00:00:00', 'CLOSE_IMMINENT', '마감 임박');
 
 INSERT INTO participating_fundings (funding_id, user_id, created_at)
 VALUES

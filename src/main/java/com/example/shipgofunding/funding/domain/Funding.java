@@ -56,6 +56,9 @@ public class Funding extends MetaData {
     @Column(nullable = false)
     private FundingEnum fundingEnum;
 
+    @Column(nullable = false)
+    private String fundingStatusDescription;
+
     @Formula("(SELECT COUNT(*) FROM funding_hearts fh WHERE fh.funding_id = id)")
     private int likesCount;
 
@@ -94,6 +97,8 @@ public class Funding extends MetaData {
                 this.fundingEnum = FundingEnum.CLOSE_IMMINENT;
             }
         }
+
+        this.fundingStatusDescription = this.fundingEnum.getDescription();
     }
 
     public void updateFunding(FundingRequest.UpdateFundingRequestDTO requestDTO) {
