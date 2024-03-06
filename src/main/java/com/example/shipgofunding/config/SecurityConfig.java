@@ -5,6 +5,7 @@ import com.example.shipgofunding.config.jwt.JwtAuthenticationFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
@@ -57,7 +58,10 @@ public class SecurityConfig   {
                 .formLogin(AbstractHttpConfigurer::disable) // form login 사용 X
                 .httpBasic(AbstractHttpConfigurer::disable) // http basic 사용 X
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/test/**").authenticated()
+                        .requestMatchers("/api/my-page/**").authenticated()
+                        .requestMatchers(HttpMethod.POST, "/api/fundings/**").authenticated()
+                        .requestMatchers(HttpMethod.PUT, "/api/fundings/**").authenticated()
+                        .requestMatchers(HttpMethod.DELETE, "/api/fundings/**").authenticated()
                         .anyRequest().permitAll()) // 모든 요청 허용
                 .headers((headers) -> headers
                         .addHeaderWriter(new XFrameOptionsHeaderWriter(
