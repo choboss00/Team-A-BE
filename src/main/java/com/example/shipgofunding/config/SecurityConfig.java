@@ -43,9 +43,9 @@ public class SecurityConfig   {
         configuration.addAllowedMethod("*"); // 모든 HTTP 메서드 허용
         configuration.addExposedHeader("Authorization"); // "Authorization" 응답 헤더 노출
         configuration.setAllowCredentials(true); // 쿠키 및 인증 정보 허용
-        //UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        //source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 CORS 설정 적용
-        return new UrlBasedCorsConfigurationSource();
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        source.registerCorsConfiguration("/**", configuration); // 모든 경로에 대해 CORS 설정 적용
+        return source;
     }
 
     @Bean
