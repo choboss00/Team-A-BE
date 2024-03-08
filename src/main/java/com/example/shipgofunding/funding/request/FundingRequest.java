@@ -89,7 +89,7 @@ public class FundingRequest {
 
         // 이미지 URL 확장자 검증 로직
         public boolean isValidImageUrls() {
-            Pattern imagePattern = Pattern.compile("([^\\s]+(\\.(?i)(jpg|png|gif|bmp))$)");
+            Pattern imagePattern = Pattern.compile("([^\\s]+(\\.(?i)(jpg|png|gif|bmp|jpeg))$)");
             return imageUrls.stream().allMatch(url -> imagePattern.matcher(url).matches());
         }
     }
