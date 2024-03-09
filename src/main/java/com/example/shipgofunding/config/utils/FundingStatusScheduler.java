@@ -21,6 +21,7 @@ public class FundingStatusScheduler {
 
         for ( Funding funding : fundings ) {
             funding.updateStatus();
+            fundingJpaRepository.save(funding);
         }
     }
 }
